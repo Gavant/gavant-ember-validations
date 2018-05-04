@@ -1,1 +1,14 @@
+{{#if label}}
+    <h5><label for="{{inputId}}" class="{{labelClass}} input-validator-label">{{fieldLabel}}</label></h5>
+{{/if}}
+
 {{yield}}
+{{#unless hideErrorText}}
+    <span class="input-validation-error">
+        {{#if showError}}
+            <span class="text-warning {{errorClass}}">
+                {{or msg error}}
+            </span>
+        {{/if}}
+    </span>
+{{/unless}}

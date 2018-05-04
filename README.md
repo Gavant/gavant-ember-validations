@@ -1,7 +1,9 @@
 gavant-ember-validations
 ==============================================================================
 
-[Short description of the addon.]
+Validation error highlighting for form fields.
+
+DISCLAIMER: This addon is not actively maintained for public use. Pull requests are welcome, but we do not guarantee responses to bug submissions or feature requests, so use at your own risk.
 
 Installation
 ------------------------------------------------------------------------------

@@ -20,8 +20,9 @@
     "test:all": "ember try:each"
   },
   "dependencies": {
-    "ember-changeset": "^1.5.0-beta.0",
-    "ember-changeset-validations": "^1.2.11",
+    "ember-changeset": "1.3.0",
+    "ember-changeset-conditional-validations": "0.2.1",
+    "ember-changeset-validations": "1.2.8",
     "ember-cli-babel": "^6.6.0",
     "ember-cli-htmlbars": "^2.0.1"
   },

@@ -1,3 +1,10 @@
-<h2 id="title">Welcome to Ember</h2>
-
+<div class="p-3">
+    <h2 id="title">Welcome to Ember</h2>
+    {{#form-validator changeset=changeset submit=(action "submitForm") as |changeset validator|}}
+        {{#input-validator target="name" fieldLabel="Name" label=true}}
+            {{input value=changeset.name class="form-control"}}
+        {{/input-validator}}
+        <button class="btn btn-primary" type="submit" {{action "submit" validator}}>Submit</button>
+    {{/form-validator}}
+</div>
 {{outlet}}

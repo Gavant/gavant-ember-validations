@@ -1,6 +1,9 @@
-.input-validator .input-validation-error {
+.input-validator .input-validator-error {
+    min-height: 1.4rem;
+    padding-top: 0.2rem;
+}
+
+.input-validator .input-validator-error .invalid-feedback {
     display: block;
-    min-height: 1.2rem;
-    line-height: 1.2rem;
-    font-size: .75rem;
+    margin-top: 0;
 }

@@ -12,6 +12,7 @@ export default Component.extend({
     classNames: [ 'form-group', 'input-validator' ],
     classNameBindings: ['showError:has-warning', 'label:has-label'],
     labelClass: 'control-label',
+    errorClass: 'invalid-feedback',
     label: false,
     hideErrorText: false,
     hasFocusedOut: false,

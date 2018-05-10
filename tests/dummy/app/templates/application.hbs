@@ -4,6 +4,16 @@
         {{#input-validator target="name" fieldLabel="Name" label=true}}
             {{input value=changeset.name class="form-control"}}
         {{/input-validator}}
+        {{#input-validator target="radio"}}
+            <div class="form-check">
+                <input type="radio" class="form-check-input" id="radio1" value="1" onclick={{action (mut changeset.radio) "1"}}>
+                <label class="form-check-label" for="radio1">Option 1</label>
+            </div>
+            <div class="form-check">
+                <input type="radio" class="form-check-input" id="radio2" value="1" onclick={{action (mut changeset.radio) "2"}}>
+                <label class="form-check-label" for="radio2">Option 2</label>
+            </div>
+        {{/input-validator}}
         <button class="btn btn-primary" type="submit" {{action "submit" validator}}>Submit</button>
     {{/form-validator}}
 </div>

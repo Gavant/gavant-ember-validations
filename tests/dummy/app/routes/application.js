@@ -4,6 +4,7 @@ import { validatePresence } from 'ember-changeset-validations/validators';
 
 const validations = {
     name: [validatePresence({presence: true, ignoreBlank: true})],
+    radio: [validatePresence({presence: true})]
 };
 
 export default Route.extend(ChangesetRoute, {
@@ -11,7 +12,8 @@ export default Route.extend(ChangesetRoute, {
 
     model() {
         return {
-            name: null
+            name: null,
+            radio: null
         };
     }
 });

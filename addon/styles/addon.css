@@ -7,3 +7,12 @@
     display: block;
     margin-top: 0;
 }
+
+.input-validator.is-invalid .custom-select,
+.input-validator.is-invalid .form-control  {
+    border-color: #dc3545;
+}
+
+.input-validator.is-invalid .form-check-label {
+    color: #dc3545;
+}

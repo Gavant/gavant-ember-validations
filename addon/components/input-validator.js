@@ -10,8 +10,9 @@ import FormValidatorChild from './form-validator/child';
 export default Component.extend({
     layout,
     classNames: [ 'form-group', 'input-validator' ],
-    classNameBindings: ['showError:has-warning', 'label:has-label'],
+    classNameBindings: ['showError:is-invalid', 'label:has-label'],
     labelClass: 'control-label',
+    errorClass: 'invalid-feedback',
     label: false,
     hideErrorText: false,
     hasFocusedOut: false,

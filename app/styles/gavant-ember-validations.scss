@@ -1,17 +1,19 @@
+@import 'gavant-ember-validations/variables';
+
 .input-validator {
     &.is-invalid {
         .custom-select,
         .form-control  {
-            border-color: #dc3545;
+            border-color: $input-validator-invalid-color;
         }
         .form-check-label {
-            color: #dc3545;
+            color: $input-validator-invalid-color;
         }
 
     }
     .input-validator-error {
-        min-height: 1.4rem;
-        padding-top: 0.2rem;
+        min-height: $input-validator-error-min-height;
+        padding-top: $input-validator-error-padding-top;
         .invalid-feedback {
             display: block;
             margin-top: 0;

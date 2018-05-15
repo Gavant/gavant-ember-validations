@@ -16,7 +16,12 @@ ember install gavant-ember-validations
 Usage
 ------------------------------------------------------------------------------
 
-[Longer description of how to use the addon in apps.]
+To use the addon styles, you must use SASS:
+```
+ember install ember-cli-sass
+```
+
+(Upon addon installation, an import statement will be added to your `app.scss`)
 
 
 Contributing

@@ -1,0 +1,20 @@
+.input-validator {
+    &.is-invalid {
+        .custom-select,
+        .form-control  {
+            border-color: #dc3545;
+        }
+        .form-check-label {
+            color: #dc3545;
+        }
+
+    }
+    .input-validator-error {
+        min-height: 1.4rem;
+        padding-top: 0.2rem;
+        .invalid-feedback {
+            display: block;
+            margin-top: 0;
+        }
+    }
+}

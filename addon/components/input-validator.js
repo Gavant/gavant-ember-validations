@@ -47,7 +47,7 @@ export default Component.extend({
         return set(this, 'hasFocusedOut', true);
     },
 
-    didInsertElement() {
+    didRender() {
         this._super(...arguments);
         const input = this.element.querySelector('input, select, textarea');
         const label = this.element.querySelector('label.input-validator-label');

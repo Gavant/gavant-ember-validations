@@ -4,12 +4,6 @@ import createChangeset from './create-changeset';
 
 export default function changesetRoute(RouteSubclass) {
     class ChangesetRoute extends RouteSubclass {
-        constructor() {
-            super();
-            this.validations = null;
-            this.cloneAttrs = null;
-        }
-
         setupController(controller, model) {
             super.setupController(controller, model);
             const validations = this.validations;

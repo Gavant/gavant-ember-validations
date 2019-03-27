@@ -13,7 +13,7 @@ export default function changesetRoute(RouteSubclass) {
         }
 
         createChangesetInstance() {
-            return createChangeset();
+            return createChangeset(...arguments);
         }
 
     }

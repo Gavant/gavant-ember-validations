@@ -8,7 +8,7 @@ const Validations = {
 };
 
 @ChangesetRoute
-export default class Application extends Route {
+export default class ApplicationRoute extends Route {
     validations = Validations;
     model() {
         return {

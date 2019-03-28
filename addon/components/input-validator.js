@@ -1,6 +1,12 @@
 import Component from '@ember/component';
 import layout from '../templates/components/input-validator';
-import { get, set, computed, defineProperty, observer } from '@ember/object';
+import {
+  get,
+  set,
+  computed,
+  defineProperty,
+  observer
+} from '@ember/object';
 import { bool, reads } from '@ember/object/computed';
 import { scheduleOnce } from '@ember/runloop';
 import FormValidator from './form-validator';

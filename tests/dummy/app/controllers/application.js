@@ -1,14 +1,12 @@
 import Controller from '@ember/controller';
-
-export default Controller.extend({
-
+export default class ApplicationController extends Controller.extend({
     actions: {
         submitForm() {
             window.alert('submitted succesfully!');
         },
-
         submit(validator) {
             return validator.submit();
         }
     }
-});
+}) {
+}

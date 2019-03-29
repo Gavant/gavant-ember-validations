@@ -1,6 +1,12 @@
 import Component from '@ember/component';
 import layout from '../templates/components/input-validator';
-import { get, set, computed, defineProperty, observer } from '@ember/object';
+import {
+  get,
+  set,
+  computed,
+  defineProperty,
+  observer
+} from '@ember/object';
 import { bool, reads } from '@ember/object/computed';
 import { scheduleOnce } from '@ember/runloop';
 import FormValidator from './form-validator';
@@ -20,7 +26,7 @@ export default Component.extend({
     showError: computed('hasError', 'hasFocusedOut', 'showAllValidationFields', function(){
         return get(this, 'hasError') && (get(this, 'hasFocusedOut') || get(this, 'showAllValidationFields'));
     }),
-    hasError: bool('error'),
+    hasError: bool('error.length'),
     fieldLabel: reads('text'),
     showAllValidationFields: reads('targetView.showAllValidationFields'),
 
@@ -47,8 +53,7 @@ export default Component.extend({
         return set(this, 'hasFocusedOut', true);
     },
 
-    didRender() {
-        this._super(...arguments);
+    defineErrorProperty() {
         const input = this.element.querySelector('input, select, textarea');
         const label = this.element.querySelector('label.input-validator-label');
         if(input && label) {
@@ -56,5 +61,10 @@ export default Component.extend({
         }
 
         defineProperty(this, 'error', reads(`targetView.changeset.error.${get(this, 'target')}.validation`));
+    },
+
+    didInsertElement() {
+        this._super(...arguments);
+        scheduleOnce('afterRender', this, 'defineErrorProperty');
     }
 });

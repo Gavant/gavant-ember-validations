@@ -53,16 +53,18 @@ export default Component.extend({
         return set(this, 'hasFocusedOut', true);
     },
 
+    defineErrorProperty() {
+        const input = this.element.querySelector('input, select, textarea');
+        const label = this.element.querySelector('label.input-validator-label');
+        if(input && label) {
+            label.setAttribute('for', input.id);
+        }
+
+        defineProperty(this, 'error', reads(`targetView.changeset.error.${get(this, 'target')}.validation`));
+    },
+
     didInsertElement() {
         this._super(...arguments);
-        scheduleOnce('afterRender', this, () => {
-            const input = this.element.querySelector('input, select, textarea');
-            const label = this.element.querySelector('label.input-validator-label');
-            if(input && label) {
-                label.setAttribute('for', input.id);
-            }
-
-            defineProperty(this, 'error', reads(`targetView.changeset.error.${get(this, 'target')}.validation`));
-        });
+        scheduleOnce('afterRender', this, 'defineErrorProperty');
     }
 });

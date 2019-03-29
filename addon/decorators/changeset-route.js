@@ -1,28 +1,29 @@
 import { assert } from '@ember/debug';
 import { isNone } from '@ember/utils';
 import createChangeset from '../utilities/create-changeset';
-import { decorator } from '@ember-decorators/utils/decorator';
+//
+// const changesetRoute = decorator((RouteSubclass) => {
+//
+// });
 
-const changesetRoute = decorator((RouteSubclass) => {
+export default function changesetRoute(RouteSubclass) {
     class ChangesetRoute extends RouteSubclass {
-        setupController(controller, model) {
-            // this._super(...arguments);
-            super.setupController(controller, model);
-            const validations = this.validations;
-            const cloneAttrs = this.cloneAttrs;
-            assert('You must provide a validations object on the "validations" property!', !isNone(validations));
-            controller.changeset = this.createChangesetInstance(model, validations, cloneAttrs);
-        }
+          setupController(controller, model) {
+              // this._super(...arguments);
+              super.setupController(controller, model);
+              const validations = this.validations;
+              const cloneAttrs = this.cloneAttrs;
+              assert('You must provide a validations object on the "validations" property!', !isNone(validations));
+              controller.changeset = this.createChangesetInstance(model, validations, cloneAttrs);
+          }
 
-        createChangesetInstance() {
-            return createChangeset(...arguments);
-        }
+          createChangesetInstance() {
+              return createChangeset(...arguments);
+          }
 
-    }
-    return ChangesetRoute;
-});
-
-export default changesetRoute;
+      }
+      return ChangesetRoute;
+}
 
 // const changesetRoute = decorators();
 //

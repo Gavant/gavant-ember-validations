@@ -24,7 +24,6 @@
     "ember-changeset": "2.0.0",
     "ember-changeset-conditional-validations": "0.5.0",
     "ember-changeset-validations": "2.1.0",
-    "ember-cli-babel": "^7.6.0",
     "ember-decorators": "^5.1.4",
     "ember-cli-htmlbars": "^3.0.0"
   },

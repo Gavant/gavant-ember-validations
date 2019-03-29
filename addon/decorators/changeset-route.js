@@ -1,8 +1,9 @@
 import { assert } from '@ember/debug';
 import { isNone } from '@ember/utils';
 import createChangeset from '../utilities/create-changeset';
+import { decorator } from '@ember-decorators/utils/decorator';
 
-export default function changesetRoute(RouteSubclass) {
+const changesetRoute = decorator((RouteSubclass) => {
     class ChangesetRoute extends RouteSubclass {
         setupController(controller, model) {
             // this._super(...arguments);
@@ -19,4 +20,17 @@ export default function changesetRoute(RouteSubclass) {
 
     }
     return ChangesetRoute;
-}
+});
+
+export default changesetRoute;
+
+// const changesetRoute = decorators();
+//
+// export function decorators(fn) {
+//     return function(...params) {
+//         // determine if user called as @computed('blah', 'blah') or @computed
+//         return desc => fn(desc, params)
+//     };
+// }
+
+// export default changesetRoute;

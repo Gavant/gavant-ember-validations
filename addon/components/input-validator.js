@@ -26,7 +26,7 @@ export default Component.extend({
     showError: computed('hasError', 'hasFocusedOut', 'showAllValidationFields', function(){
         return get(this, 'hasError') && (get(this, 'hasFocusedOut') || get(this, 'showAllValidationFields'));
     }),
-    hasError: bool('error'),
+    hasError: bool('error.length'),
     fieldLabel: reads('text'),
     showAllValidationFields: reads('targetView.showAllValidationFields'),
 
@@ -54,13 +54,16 @@ export default Component.extend({
     },
 
     didInsertElement() {
-        this._super(...arguments);
-        const input = this.element.querySelector('input, select, textarea');
-        const label = this.element.querySelector('label.input-validator-label');
-        if(input && label) {
-            label.setAttribute('for', input.id);
-        }
 
-        defineProperty(this, 'error', reads(`targetView.changeset.error.${get(this, 'target')}.validation`));
+        scheduleOnce('afterRender', this, () => {
+            const input = this.element.querySelector('input, select, textarea');
+            const label = this.element.querySelector('label.input-validator-label');
+            if(input && label) {
+                label.setAttribute('for', input.id);
+            }
+
+            defineProperty(this, 'error', reads(`targetView.changeset.error.${get(this, 'target')}.validation`));
+        })
+this._super(...arguments);
     }
 });

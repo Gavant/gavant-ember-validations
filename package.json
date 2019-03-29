@@ -24,7 +24,7 @@
     "ember-changeset": "2.0.0",
     "ember-changeset-conditional-validations": "0.5.0",
     "ember-changeset-validations": "2.1.0",
-    "ember-cli-babel": "^7.7.0",
+    "ember-cli-babel": "^7.6.0",
     "ember-decorators": "^5.1.4",
     "ember-cli-htmlbars": "^3.0.0"
   },
@@ -33,7 +33,7 @@
     "babel-eslint": "^8.0.0",
     "broccoli-asset-rev": "^2.7.0",
     "ember-cli": "~3.8.1",
-    "ember-cli-babel": "^7.7.0",
+    "ember-cli-babel": "^7.6.0",
     "ember-cli-changelog": "^0.3.4",
     "ember-cli-dependency-checker": "^3.1.0",
     "ember-cli-eslint": "^4.2.3",

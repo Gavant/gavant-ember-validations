@@ -54,7 +54,7 @@ export default Component.extend({
     },
 
     didInsertElement() {
-
+        this._super(...arguments);
         scheduleOnce('afterRender', this, () => {
             const input = this.element.querySelector('input, select, textarea');
             const label = this.element.querySelector('label.input-validator-label');
@@ -63,7 +63,6 @@ export default Component.extend({
             }
 
             defineProperty(this, 'error', reads(`targetView.changeset.error.${get(this, 'target')}.validation`));
-        })
-this._super(...arguments);
+        });
     }
 });

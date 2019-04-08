@@ -4,7 +4,7 @@ import { isNone } from '@ember/utils';
 import createChangeset from '../utilities/create-changeset';
 
 /**
- * Adds functionality to `setupController` /  `resetController`. Be sure to call `super` in the respective methods to ensure this runs
+ * Adds functionality to `setupController`. Be sure to call `super` in the respective methods to ensure this runs
  * @param route The route you want the functionality to be added on to
  */
 export default function changesetRoute<T extends ConcreteSubclass<any>>(RouteSubclass: T) {

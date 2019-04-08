@@ -5,6 +5,9 @@ import createChangeset from '../utilities/create-changeset';
 import { get, set } from '@ember/object';
 import DS from 'ember-data';
 
+/**
+ * Adds functionality to `setupController`. Be sure to call `super` in the respective methods to ensure this runs
+ */
 export default Mixin.create({
     setupController(this: ChangesetRoute, controller: ChangesetController, model: DS.Model) {
         this._super(...arguments);

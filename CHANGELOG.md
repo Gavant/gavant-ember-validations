@@ -1,6 +1,13 @@
 Changelog
 =========
 
+## v1.1.0
+
+### Pull Requests
+Convert to typescript
+
+- [#8](https://github.com/Gavant/gavant-ember-validations/pull/8)  LGTM  *by [Gavant](https://github.com/Gavant)*
+
 ## v1.0.0
 
 ### Pull Requests

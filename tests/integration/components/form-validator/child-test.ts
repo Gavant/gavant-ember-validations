@@ -9,14 +9,15 @@ module('Integration | Component | form-validator/child', function(hooks) {
   test('it renders', async function(assert) {
     // Set any properties with this.set('myProperty', 'value');
     // Handle any actions with this.set('myAction', function(val) { ... });
+
     this.set('parent', {
         registerChild: function() {},
         deregisterChild: function() {}
     });
-    
-    await render(hbs`{{form-validator/child parent=parent}}`);
 
-    assert.equal(this.element.textContent.trim(), '');
+    await render(hbs`{{form-validator/child parent=parent}}`);
+    let element = this.element.textContent;
+    assert.equal(element && element.trim(), '');
 
     // Template block usage:
     await render(hbs`
@@ -25,6 +26,7 @@ module('Integration | Component | form-validator/child', function(hooks) {
       {{/form-validator/child}}
     `);
 
-    assert.equal(this.element.textContent.trim(), 'template block text');
+    element = this.element.textContent;
+    assert.equal(element && element.trim(), 'template block text');
   });
 });

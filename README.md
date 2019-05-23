@@ -17,7 +17,7 @@ Installation
 ------------------------------------------------------------------------------
 
 ```
-ember install gavant-ember-validations
+ember install @gavant/ember-validations
 ```
 
 

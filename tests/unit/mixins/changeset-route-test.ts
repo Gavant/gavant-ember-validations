@@ -1,5 +1,5 @@
 import EmberObject from '@ember/object';
-import ChangesetRouteMixin from 'gavant-ember-validations/mixins/changeset-route';
+import ChangesetRouteMixin from '@gavant/ember-validations/mixins/changeset-route';
 import { module, test } from 'qunit';
 
 module('Unit | Mixin | changeset-route', function() {

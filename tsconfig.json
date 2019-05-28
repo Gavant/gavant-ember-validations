@@ -28,16 +28,16 @@
         "tests/dummy/app/*",
         "app/*"
       ],
-      "gavant-ember-validations": [
+      "@gavant/ember-validations": [
         "addon"
       ],
-      "gavant-ember-validations/*": [
+      "@gavant/ember-validations/*": [
         "addon/*"
       ],
-      "gavant-ember-validations/test-support": [
+      "@gavant/ember-validations/test-support": [
         "addon-test-support"
       ],
-      "gavant-ember-validations/test-support/*": [
+      "@gavant/ember-validations/test-support/*": [
         "addon-test-support/*"
       ],
       "*": [

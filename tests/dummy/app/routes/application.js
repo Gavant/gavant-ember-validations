@@ -1,5 +1,5 @@
 import Route from '@ember/routing/route';
-import ChangesetRoute from 'gavant-ember-validations/decorators/changeset-route';
+import ChangesetRoute from '@gavant/ember-validations/decorators/changeset-route';
 import { validatePresence } from 'ember-changeset-validations/validators';
 
 const Validations = {

@@ -12,7 +12,7 @@ module.exports = {
     },
 
     afterInstall() {
-        let importStatement = '\n@import "@gavant/ember-validations";\n';
+        let importStatement = '\n@import "gavant-ember-validations";\n';
 
         let stylePath = path.join('app', 'styles');
         let file = path.join(stylePath, 'app.scss');

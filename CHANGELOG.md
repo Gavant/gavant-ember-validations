@@ -1,6 +1,8 @@
 Changelog
 =========
 
+## v1.1.2
+
 ## v1.1.1
 - Use global ember `set`
 ## v1.1.0

@@ -45,7 +45,11 @@ export default class FormValidator extends Component{
      *
      * @param changeset The changeset to validate
      */
-    validateChangeset(changeset: Changeset) {
+    validateChangeset(changeset: Changeset | null) {
+        if(!changeset) {
+            return resolve();
+        }
+
         return changeset.validate().then(() => {
             if(changeset.isInvalid) {
                 return reject();
@@ -62,22 +66,18 @@ export default class FormValidator extends Component{
     @action
     async submitForm() {
         const ownChangeset = this.changeset;
-        if (ownChangeset) {
-            const validations = A([this.validateChangeset(ownChangeset)]);
-            const childChangesets = this.childValidators.mapBy('changeset');
-            childChangesets.forEach(changeset => validations.pushObject(this.validateChangeset(changeset)));
-            this.set('showAllValidationFields', false);
-            this.childValidators.setEach('showAllValidationFields', false);
+        const validations = A([this.validateChangeset(ownChangeset)]);
+        const childChangesets = this.childValidators.mapBy('changeset');
+        childChangesets.forEach(changeset => validations.pushObject(this.validateChangeset(changeset)));
+        this.set('showAllValidationFields', false);
+        this.childValidators.setEach('showAllValidationFields', false);
 
-            try {
-                await all(validations);
-                return tryInvoke(this, 'submit', [ownChangeset, childChangesets]);
-            } catch(error) {
-                this.set('showAllValidationFields', true);
-                this.childValidators.setEach('showAllValidationFields', true);
-                return reject();
-            }
-        } else {
+        try {
+            await all(validations);
+            return tryInvoke(this, 'submit', [ownChangeset, childChangesets]);
+        } catch(error) {
+            this.set('showAllValidationFields', true);
+            this.childValidators.setEach('showAllValidationFields', true);
             return reject();
         }
     }

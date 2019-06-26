@@ -1,20 +1,30 @@
 <div class="p-3">
-    <h2 id="title">Welcome to Ember</h2>
-    {{#form-validator changeset=changeset submit=(action "submitForm") as |changeset validator|}}
-        {{#input-validator target="name" fieldLabel="Name" label=true}}
-            {{input value=changeset.name class="form-control"}}
-        {{/input-validator}}
-        {{#input-validator target="radio"}}
-            <div class="form-check">
-                <input type="radio" class="form-check-input" name="radio-input" id="radio1" value="1" onclick={{action (mut changeset.radio) "1"}}>
-                <label class="form-check-label" for="radio1">Option 1</label>
-            </div>
-            <div class="form-check">
-                <input type="radio" class="form-check-input" name="radio-input" id="radio2" value="1" onclick={{action (mut changeset.radio) "2"}}>
-                <label class="form-check-label" for="radio2">Option 2</label>
-            </div>
-        {{/input-validator}}
-        <button class="btn btn-primary" type="submit" {{action "submit" validator}}>Submit</button>
+    <h2 id="title">@gavant/ember-validations</h2>
+    <h3>Form with changeset</h3>
+    <div class="mb-4">
+        {{#form-validator changeset=changeset submit=(action "submitForm") as |changeset validator|}}
+            {{#input-validator target="name" fieldLabel="Name" label=true}}
+                {{input value=changeset.name class="form-control"}}
+            {{/input-validator}}
+            {{#input-validator target="radio"}}
+                <div class="form-check">
+                    <input type="radio" class="form-check-input" name="radio-input" id="radio1" value="1" onclick={{action (mut changeset.radio) "1"}}>
+                    <label class="form-check-label" for="radio1">Option 1</label>
+                </div>
+                <div class="form-check">
+                    <input type="radio" class="form-check-input" name="radio-input" id="radio2" value="1" onclick={{action (mut changeset.radio) "2"}}>
+                    <label class="form-check-label" for="radio2">Option 2</label>
+                </div>
+            {{/input-validator}}
+            <button class="btn btn-primary" type="submit" {{action validator.submit}}>Submit</button>
+        {{/form-validator}}
+    </div>
+    <h3>Form with no changeset</h3>
+    {{#form-validator submit=(action "submitForm") as |changeset validator|}}
+        <div class="form-group">
+            {{input value=someProp class="form-control"}}
+        </div>
+        <button class="btn btn-primary" type="submit" {{action validator.submit}}>Submit</button>
     {{/form-validator}}
 </div>
 {{outlet}}

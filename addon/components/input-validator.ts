@@ -1,13 +1,13 @@
 import Component from '@ember/component';
+import { defineProperty, computed } from '@ember/object';
+import { bool, reads } from '@ember/object/computed';
+import { scheduleOnce } from '@ember/runloop';
+import { observes } from '@ember-decorators/object';
+
 // @ts-ignore: Ignore import of compiled template
 import layout from '../templates/components/input-validator';
-import { computed } from '@ember-decorators/object';
-import { bool, reads } from '@ember-decorators/object/computed';
-import { observes } from '@ember-decorators/object';
-import { scheduleOnce } from '@ember/runloop';
-import FormValidator from './form-validator';
 import FormValidatorChild from './form-validator/child';
-import { defineProperty } from '@ember/object';
+import FormValidator from './form-validator';
 
 export default class InputValidator extends Component {
     layout = layout;

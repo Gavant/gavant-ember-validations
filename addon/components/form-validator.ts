@@ -1,21 +1,21 @@
-import Component from '@ember/component';
-// @ts-ignore: Ignore import of compiled template
-import layout from '../templates/components/form-validator';
-import { tagName } from '@ember-decorators/component';
 import { A } from '@ember/array';
 import NativeArray from '@ember/array/-private/native-array';
+import Component from '@ember/component';
+import { action } from '@ember/object';
 import { tryInvoke } from '@ember/utils';
-import { resolve, reject, all } from 'rsvp';
-import { action } from '@ember-decorators/object';
-import FormValidatorChild from './form-validator/child';
 import { ChangesetDef } from 'ember-changeset/types';
+import { all, reject, resolve } from 'rsvp';
+
+// @ts-ignore: Ignore import of compiled template
+import layout from '../templates/components/form-validator';
+import FormValidatorChild from './form-validator/child';
 
 export interface Changeset extends ChangesetDef {
     validate: (key?: any) => any;
 }
 
-@tagName('form')
-export default class FormValidator extends Component{
+export default class FormValidator extends Component {
+    tagName = 'form';
     layout = layout;
     didInvokeValidate: boolean = false;
     childValidators: NativeArray<{}> = A();
@@ -60,7 +60,8 @@ export default class FormValidator extends Component{
      * If they do validate, try to invoke `submit`. Otherwise show all validation field errors
      */
     @action
-    async submitForm() {
+    async submitForm(event: Event) {
+        event.preventDefault();
         const ownChangeset = this.changeset;
         if (ownChangeset) {
             const validations = A([this.validateChangeset(ownChangeset)]);

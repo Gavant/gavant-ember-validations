@@ -1,12 +1,12 @@
 import Component from '@ember/component';
+import { assert } from '@ember/debug';
+
 // @ts-ignore: Ignore import of compiled template
 import layout from '../../templates/components/form-validator/child';
-import { tagName } from '@ember-decorators/component';
-import { assert } from '@ember/debug';
 import FormValidator from '../form-validator';
 
-@tagName('div')
 export default class FormValidatorChild extends Component {
+    tagName = 'div';
     layout = layout;
     parent!: FormValidator;
 

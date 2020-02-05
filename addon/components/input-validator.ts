@@ -107,7 +107,6 @@ export default class InputValidator extends Component {
      */
     @observes('parent.changeset')
     changesetHasChanged() {
-        console.log('changeset changed!');
         scheduleOnce('afterRender', this, 'set', 'hasFocusedOut', false);
     }
 
@@ -115,7 +114,7 @@ export default class InputValidator extends Component {
      * When user focuses out of the field, this sets `hasFocusedOut` to `true`
      */
     focusOut() {
-        return this.set('hasFocusedOut', true);
+        this.set('hasFocusedOut', true);
     }
 
     /**

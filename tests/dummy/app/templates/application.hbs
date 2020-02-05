@@ -5,13 +5,13 @@
         @submit={{this.submitForm}}
         as |changeset Validator|
     >
-        <Validator.input @target="name" @fieldLabel="Name" @label={{true}}>
-            <Input @value={{changeset.name}} class="form-control" />
+        <Validator.input @errors={{changeset.error.name.validation}} @fieldLabel="Name" @label={{true}}>
+            <Input @value={{changeset.name}} class="form-control" autocomplete="off" />
         </Validator.input>
-        <Validator.input @target="num" @fieldLabel="Num" @label={{true}}>
-            <Input @value={{changeset.num}} class="form-control" />
+        <Validator.input @errors={{changeset.error.num.validation}} @fieldLabel="Num" @label={{true}}>
+            <Input @value={{changeset.num}} class="form-control" autocomplete="off" />
         </Validator.input>
-        <Validator.input @target="radio">
+        <Validator.input @errors={{changeset.error.radio.validation}}>
             <div class="form-check">
                 <input type="radio" class="form-check-input" name="radio-input" id="radio1" value="1" {{on "click" (fn (mut changeset.radio) "1")}}>
                 <label class="form-check-label" for="radio1">Option 1</label>
@@ -23,8 +23,8 @@
         </Validator.input>
         <Validator.child @changeset={{this.childChangeset}} as |childChangeset ChildValidator|>
             <h2>Child validator</h2>
-            <ChildValidator.input @target="foo" @fieldLabel="Foo" @label={{true}}>
-                <Input @value={{childChangeset.foo}} class="form-control" />
+            <ChildValidator.input @errors={{childChangeset.error.foo.validation}} @fieldLabel="Foo" @label={{true}}>
+                <Input @value={{childChangeset.foo}} class="form-control" autocomplete="off" />
             </ChildValidator.input>
         </Validator.child>
         <button class="btn btn-primary" type="submit" {{on "click" Validator.submit}}>Submit</button>

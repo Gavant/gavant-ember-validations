@@ -1,8 +1,8 @@
 import Component from '@ember/component';
 import { assert } from '@ember/debug';
-import { reads } from '@ember/object/computed';
+import { reads, bool } from '@ember/object/computed';
 import { scheduleOnce } from '@ember/runloop';
-import { isEmpty } from '@ember/utils';
+import { computed } from '@ember/object';
 import { observes } from '@ember-decorators/object';
 
 // @ts-ignore: Ignore import of compiled template
@@ -20,8 +20,15 @@ export default class InputValidator extends Component {
     hasFocusedOut: boolean = false;
     parent!: FormValidator;
     label: boolean = false;
-    target: any;
 
+    /**
+     * An array of strings which are the current error messages associated with the input field
+     * In almost all cases, this will be passed via `@errors={{changeset.error.FIELD_NAME.validation}}`
+     * Where "FIELD_NAME" is the associated changeset property, e.g. `changeset.error.firstName.validation`
+     *
+     * @type {string[]}
+     */
+    errors?: string[];
 
     /**
      * On initialization, verify the component was invoked in the correct context
@@ -43,22 +50,12 @@ export default class InputValidator extends Component {
     }
 
     /**
-     * Returns the target changeset's array of errors, if there are any
-     *
-     * @readonly
-     * @param target the field in the chagneset to show errors for
-     * @param parent.changeset.error the changeset's hash of errors for each field
-     */
-    get errors(): string[] | undefined {
-        return this.parent.changeset?.error[this.target]?.validation;
-    }
-
-    /**
      * Returns a comma-separated formatted string of the field's current errors
      *
      * @readonly
      * @param errors the error array in the changeset associated with the target field
      */
+    @computed('errors.[]')
     get formattedErrors(): string {
         return this.errors?.join(', ') ?? '';
     }
@@ -67,11 +64,9 @@ export default class InputValidator extends Component {
      * Returns true if the target changeset field has at least one error
      *
      * @readonly
-     * @param errors the error array in the changeset associated with the target field
+     * @param errors.length the count of the current errors for the target field
      */
-    get hasError(): boolean {
-        return !isEmpty(this.errors);
-    }
+    @bool('errors.length') hasError: boolean | undefined;
 
     /**
      * Checks to see if we should show the error
@@ -82,6 +77,7 @@ export default class InputValidator extends Component {
      * @param hasFocusedOut If the user has focused out of the field
      * @param showAllValidationFields If we should be showing all validation fields
      */
+    @computed('hasError', 'hasFocusedOut', 'showAllValidationFields')
     get showError() {
         return this.hasError && (this.hasFocusedOut || this.showAllValidationFields);
     }

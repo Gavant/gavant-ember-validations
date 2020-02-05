@@ -37,24 +37,23 @@ This addon is bundled with [ember-changset](https://github.com/poteto/ember-chan
 
 ### Basic Example
 ```ts
-// app/pods/my-route/route.ts
+// app/pods/foo/route.ts
 import Route from '@ember/routing/route';
 import ChangesetRoute from '@gavant/ember-validations/mixins/changeset-route';
 import Validations from 'my-app/validations/my-validations';
 
-
-export default class Application extends ChangesetRoute(Route) {
+export default class FooRoute extends ChangesetRoute(Route) {
     validations = Validations;
 }
 
 ```
 
 ```ts
-// app/pods/my-route/controller.ts
+// app/pods/foo/controller.ts
 import Controller from '@ember/controller';
 import { action } from '@ember/object';
 
-export default class ApplicationController extends Controller {
+export default class FooController extends Controller {
     @action
     submit(changeset) {
         //do something with the validated changeset
@@ -64,7 +63,7 @@ export default class ApplicationController extends Controller {
 ```
 
 ```hbs
-{{!-- app/pods/my-route/template.hbs --}}
+{{!-- app/pods/foo/template.hbs --}}
 <FormValidator
     @changeset={{this.changeset}}
     @submit={{this.submit}}
@@ -89,7 +88,7 @@ In more complex forms, you may have multiple changesets that need to be validate
 When the parent `<FormValidator>`'s `submit` action is invoked, it will validate each of the associated child changesets in addition to its own.
 
 ```hbs
-{{!-- app/pods/my-route/template.hbs --}}
+{{!-- app/pods/foo/template.hbs --}}
 <FormValidator
     @changeset={{this.changeset}}
     @submit={{this.submitForm}}

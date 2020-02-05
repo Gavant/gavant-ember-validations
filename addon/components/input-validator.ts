@@ -8,6 +8,7 @@ import { observes } from '@ember-decorators/object';
 // @ts-ignore: Ignore import of compiled template
 import layout from '../templates/components/input-validator';
 import FormValidator from './form-validator';
+import ChildFormValidator from './form-validator/child';
 
 export default class InputValidator extends Component {
     layout = layout;
@@ -29,7 +30,7 @@ export default class InputValidator extends Component {
         super.init();
         assert(
             'input validators must be inside a form-validator block and invoked using the yielded <Validator.input> contextual component',
-            this.parent instanceof FormValidator
+            this.parent! instanceof FormValidator || this.parent! instanceof ChildFormValidator
         );
     }
 
@@ -48,18 +49,28 @@ export default class InputValidator extends Component {
      * @param target the field in the chagneset to show errors for
      * @param parent.changeset.error the changeset's hash of errors for each field
      */
-    get error(): string[] | undefined {
+    get errors(): string[] | undefined {
         return this.parent.changeset?.error[this.target]?.validation;
+    }
+
+    /**
+     * Returns a comma-separated formatted string of the field's current errors
+     *
+     * @readonly
+     * @param errors the error array in the changeset associated with the target field
+     */
+    get formattedErrors(): string {
+        return this.errors?.join(', ') ?? '';
     }
 
     /**
      * Returns true if the target changeset field has at least one error
      *
      * @readonly
-     * @param error the error array in the changeset associated with the target field
+     * @param errors the error array in the changeset associated with the target field
      */
     get hasError(): boolean {
-        return !isEmpty(this.error);
+        return !isEmpty(this.errors);
     }
 
     /**

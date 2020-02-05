@@ -13,8 +13,8 @@ export default class FormValidatorChild extends Component {
     /**
      * Registers a `FormValidatorChild` with the parent `FormValidator`
      */
-    constructor() {
-        super();
+    init() {
+        super.init();
         assert(
             'child form validators must be inside a form-validator block and pass it to this component in the "parent" attribute',
             this.parent instanceof FormValidator

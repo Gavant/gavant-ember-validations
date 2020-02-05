@@ -33,7 +33,7 @@ Upon addon installation, an import statement will be added to your `app.scss`:
 
 Usage
 ------------------------------------------------------------------------------
-This addon is bundled with [ember-changset](https://github.com/poteto/ember-changeset) and [ember-changeset-validations](https://github.com/poteto/ember-changeset-validations/), and requires that a `Changeset` object be created from the data (e.g. a Ember Data `Model` or event just a basic POJO) that you intend to modify and validate in the form.
+This addon is bundled with [ember-changset](https://github.com/poteto/ember-changeset) and [ember-changeset-validations](https://github.com/poteto/ember-changeset-validations/), and requires that a `Changeset` object be created from the data (e.g. a Ember Data `Model` or even just a basic POJO) that you intend to modify and validate in the form.
 
 ### Basic Example
 ```ts

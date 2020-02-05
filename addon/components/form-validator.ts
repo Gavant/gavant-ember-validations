@@ -3,23 +3,19 @@ import NativeArray from '@ember/array/-private/native-array';
 import Component from '@ember/component';
 import { action } from '@ember/object';
 import { tryInvoke } from '@ember/utils';
-import { ChangesetDef } from 'ember-changeset/types';
+import { BufferedChangeset } from 'validated-changeset/dist/types';
 import { all, reject, resolve } from 'rsvp';
 
 // @ts-ignore: Ignore import of compiled template
 import layout from '../templates/components/form-validator';
 import FormValidatorChild from './form-validator/child';
 
-export interface Changeset extends ChangesetDef {
-    validate: (key?: any) => any;
-}
-
 export default class FormValidator extends Component {
     tagName = 'form';
     layout = layout;
     didInvokeValidate: boolean = false;
     childValidators: NativeArray<{}> = A();
-    changeset: Changeset | null = null;
+    changeset: BufferedChangeset | null = null;
     showAllValidationFields: boolean = false;
 
     /**
@@ -45,7 +41,7 @@ export default class FormValidator extends Component {
      *
      * @param changeset The changeset to validate
      */
-    validateChangeset(changeset: Changeset) {
+    validateChangeset(changeset: BufferedChangeset) {
         return changeset.validate().then(() => {
             if(changeset.isInvalid) {
                 return reject();

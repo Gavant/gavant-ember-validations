@@ -3,12 +3,12 @@
     <FormValidator
         @changeset={{this.changeset}}
         @submit={{this.submitForm}}
-        as |changeset validator|
+        as |changeset Validator|
     >
-        <InputValidator @target="name" @fieldLabel="Name" @label={{true}}>
+        <Validator.input @target="name" @fieldLabel="Name" @label={{true}}>
             <Input @value={{changeset.name}} class="form-control" />
-        </InputValidator>
-        <InputValidator @target="radio">
+        </Validator.input>
+        <Validator.input @target="radio">
             <div class="form-check">
                 <input type="radio" class="form-check-input" name="radio-input" id="radio1" value="1" {{on "click" (fn (mut changeset.radio) "1")}}>
                 <label class="form-check-label" for="radio1">Option 1</label>
@@ -17,8 +17,8 @@
                 <input type="radio" class="form-check-input" name="radio-input" id="radio2" value="1" {{on "click" (fn (mut changeset.radio) "2")}}>
                 <label class="form-check-label" for="radio2">Option 2</label>
             </div>
-        </InputValidator>
-        <button class="btn btn-primary" type="submit" {{on "click" validator.submit}}>Submit</button>
+        </Validator.input>
+        <button class="btn btn-primary" type="submit" {{on "click" Validator.submit}}>Submit</button>
     </FormValidator>
 </div>
 {{outlet}}

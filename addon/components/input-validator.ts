@@ -1,12 +1,12 @@
 import Component from '@ember/component';
-import { defineProperty, computed } from '@ember/object';
-import { bool, reads } from '@ember/object/computed';
+import { assert } from '@ember/debug';
+import { reads } from '@ember/object/computed';
 import { scheduleOnce } from '@ember/runloop';
+import { isEmpty } from '@ember/utils';
 import { observes } from '@ember-decorators/object';
 
 // @ts-ignore: Ignore import of compiled template
 import layout from '../templates/components/input-validator';
-import FormValidatorChild from './form-validator/child';
 import FormValidator from './form-validator';
 
 export default class InputValidator extends Component {
@@ -15,36 +15,70 @@ export default class InputValidator extends Component {
     classNameBindings: string[] = ['showError:is-invalid', 'label:has-label'];
     labelClass: string = 'control-label';
     errorClass: string = 'invalid-feedback';
-    label: boolean = false;
     hideErrorText: boolean = false;
     hasFocusedOut: boolean = false;
-    error = null;
-    parentView: any;
+    parent!: FormValidator;
+    label: boolean = false;
     target: any;
+
+
+    /**
+     * On initialization, verify the component was invoked in the correct context
+     */
+    init() {
+        super.init();
+        assert(
+            'input validators must be inside a form-validator block and invoked using the yielded <Validator.input> contextual component',
+            this.parent instanceof FormValidator
+        );
+    }
+
+    /**
+     * On element insert, update the input's associated <label>'s `for` attribute
+     */
+    didInsertElement() {
+        super.didInsertElement();
+        scheduleOnce('afterRender', this, 'setLabelForAttribute');
+    }
+
+    /**
+     * Returns the target changeset's array of errors, if there are any
+     *
+     * @readonly
+     * @param target the field in the chagneset to show errors for
+     * @param parent.changeset.error the changeset's hash of errors for each field
+     */
+    get error(): string[] | undefined {
+        return this.parent.changeset?.error[this.target]?.validation;
+    }
+
+    /**
+     * Returns true if the target changeset field has at least one error
+     *
+     * @readonly
+     * @param error the error array in the changeset associated with the target field
+     */
+    get hasError(): boolean {
+        return !isEmpty(this.error);
+    }
 
     /**
      * Checks to see if we should show the error
      * If there is an error and you have focused out of the field or your supposed to show all errors then this value is true
      *
+     * @readonly
      * @param hasError If there is an error for this field
      * @param hasFocusedOut If the user has focused out of the field
      * @param showAllValidationFields If we should be showing all validation fields
      */
-    @computed('hasError', 'hasFocusedOut', 'showAllValidationFields')
     get showError() {
         return this.hasError && (this.hasFocusedOut || this.showAllValidationFields);
     }
 
     /**
-     * Checks to see if there is an error related to the field
-     *
-     * @param error.length Error array length
-     */
-    @bool('error.length') hasError: boolean | undefined;
-
-    /**
      * The label for the field
      *
+     * @readonly
      * @param text `text` that is passed in from the user
      */
     @reads('text') fieldLabel: string | undefined;
@@ -52,35 +86,18 @@ export default class InputValidator extends Component {
     /**
      * Checks to see if we should be showing all validation fields. This is changed via the `FormValidator.showAllValidationFields` property
      *
-     * @param targetView.showAllValidationFields `text` that is passed in from the user
+     * @readonly
+     * @param parent.showAllValidationFields `text` that is passed in from the user
      */
-    @reads('targetView.showAllValidationFields') showAllValidationFields: boolean | undefined;
+    @reads('parent.showAllValidationFields') showAllValidationFields: boolean | undefined;
 
     /**
      * Afer the changeset has changed, this observer resets `hasFocusedOut`
      */
-    @observes('targetView.changeset')
+    @observes('parent.changeset')
     changesetHasChanged() {
+        console.log('changeset changed!');
         scheduleOnce('afterRender', this, 'set', 'hasFocusedOut', false);
-    }
-
-    /**
-     * Goes up through the parent components to find an instance of a `FormValidator` or `FormValidatorChild`
-     *
-     * @param targetView.showAllValidationFields `text` that is passed in from the user
-     */
-    get targetView() {
-        return this.getFormComponent(this.parentView);
-    }
-
-    private getFormComponent(parentView: any): any {
-        if (!parentView) {
-            return null;
-        }
-        if (parentView instanceof FormValidator || parentView instanceof FormValidatorChild) {
-            return parentView;
-        }
-        return this.getFormComponent(parentView.parentView);
     }
 
     /**
@@ -91,21 +108,14 @@ export default class InputValidator extends Component {
     }
 
     /**
-     * Defines a new property called error, which reads the errors from the changeset for the specific value.
-     * For example, if you pass in a target of `name` error is set to `targetView.changeset.error.name.validation` which gives us the errors that we display to the user
+     * Updates the input's associated <label> with a for="" attribute value
+     * using the auto-generated ID of the input
      */
-    defineErrorProperty() {
+    setLabelForAttribute() {
         const input = this.element.querySelector('input, select, textarea');
         const label = this.element.querySelector('label.input-validator-label');
         if(input && label) {
             label.setAttribute('for', input.id);
         }
-
-        defineProperty(this, 'error', reads(`targetView.changeset.error.${this.target}.validation`));
-    }
-
-    didInsertElement() {
-        super.didInsertElement();
-        scheduleOnce('afterRender', this, 'defineErrorProperty');
     }
 };

@@ -1,14 +1,11 @@
-import Route from '@ember/routing/route';
 import { set } from '@ember/object';
 import { assert } from '@ember/debug';
 import { isNone } from '@ember/utils';
 
 import createChangeset from '../utilities/create-changeset';
 
-type Constructor<T = Route> = new (...args: any[]) => T;
-
-export default function ChangesetRoute<TBase extends Constructor>(Base: TBase) {
-    class ChangesetRouteClass extends Base {
+export default function ChangesetRoute<T extends ConcreteSubclass<any>>(RouteSubclass: T) {
+    class ChangesetRouteClass extends RouteSubclass {
         /**
          * A validations object to use for the route's changeset in the shape
          * required by ember-changeset-validations

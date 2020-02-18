@@ -3,7 +3,7 @@ import NativeArray from '@ember/array/-private/native-array';
 import Component from '@ember/component';
 import { action } from '@ember/object';
 import { tryInvoke } from '@ember/utils';
-import { BufferedChangeset } from 'validated-changeset/dist/types';
+import { BufferedChangeset } from 'ember-changeset/types';
 import { all, reject, resolve } from 'rsvp';
 
 // @ts-ignore: Ignore import of compiled template

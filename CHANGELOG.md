@@ -1,6 +1,12 @@
 Changelog
 =========
 
+## v2.0.0
+
+### Pull Requests
+
+- [#10](https://github.com/Gavant/gavant-ember-validations/pull/10) **octanification - part 1**: A New Hope  *by [Gavant/feature](https://github.com/Gavant/feature)*
+
 ## v1.1.2
 
 ## v1.1.1

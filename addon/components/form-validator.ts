@@ -1,25 +1,21 @@
-import Component from '@ember/component';
-// @ts-ignore: Ignore import of compiled template
-import layout from '../templates/components/form-validator';
-import { tagName } from '@ember-decorators/component';
 import { A } from '@ember/array';
 import NativeArray from '@ember/array/-private/native-array';
+import Component from '@ember/component';
+import { action } from '@ember/object';
 import { tryInvoke } from '@ember/utils';
-import { resolve, reject, all } from 'rsvp';
-import { action } from '@ember-decorators/object';
+import { BufferedChangeset } from 'ember-changeset/types';
+import { all, reject, resolve } from 'rsvp';
+
+// @ts-ignore: Ignore import of compiled template
+import layout from '../templates/components/form-validator';
 import FormValidatorChild from './form-validator/child';
-import { ChangesetDef } from 'ember-changeset/types';
 
-export interface Changeset extends ChangesetDef {
-    validate: (key?: any) => any;
-}
-
-@tagName('form')
-export default class FormValidator extends Component{
+export default class FormValidator extends Component {
+    tagName = 'form';
     layout = layout;
     didInvokeValidate: boolean = false;
     childValidators: NativeArray<{}> = A();
-    changeset: Changeset | null = null;
+    changeset: BufferedChangeset | null = null;
     showAllValidationFields: boolean = false;
 
     /**
@@ -45,7 +41,7 @@ export default class FormValidator extends Component{
      *
      * @param changeset The changeset to validate
      */
-    validateChangeset(changeset: Changeset) {
+    validateChangeset(changeset: BufferedChangeset) {
         return changeset.validate().then(() => {
             if(changeset.isInvalid) {
                 return reject();
@@ -60,7 +56,8 @@ export default class FormValidator extends Component{
      * If they do validate, try to invoke `submit`. Otherwise show all validation field errors
      */
     @action
-    async submitForm() {
+    async submitForm(event: Event) {
+        event.preventDefault();
         const ownChangeset = this.changeset;
         if (ownChangeset) {
             const validations = A([this.validateChangeset(ownChangeset)]);

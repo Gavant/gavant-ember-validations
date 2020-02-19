@@ -1,1 +1,4 @@
-{{yield changeset}}
+{{yield
+    @changeset
+    (hash input=(component "input-validator" parent=this))
+}}

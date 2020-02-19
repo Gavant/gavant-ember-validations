@@ -17,9 +17,9 @@
     "noEmit": true,
     "inlineSourceMap": true,
     "inlineSources": true,
-    "experimentalDecorators": true,
     "baseUrl": ".",
     "module": "es6",
+    "experimentalDecorators": true,
     "paths": {
       "dummy/tests/*": [
         "tests/*"

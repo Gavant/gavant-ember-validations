@@ -1,12 +1,14 @@
-{{#if label}}
-    <label for={{inputId}} class="{{labelClass}} input-validator-label">{{fieldLabel}}</label>
+{{#if this.label}}
+    <label for={{this.inputId}} class="{{this.labelClass}} input-validator-label">
+        {{this.fieldLabel}}
+    </label>
 {{/if}}
 {{yield}}
-{{#unless hideErrorText}}
+{{#unless this.hideErrorText}}
     <div class="input-validator-error">
-        {{#if showError}}
-            <div class={{errorClass}}>
-                {{if msg msg error}}
+        {{#if this.showError}}
+            <div class={{this.errorClass}}>
+                {{if this.msg this.msg this.formattedErrors}}
             </div>
         {{/if}}
     </div>

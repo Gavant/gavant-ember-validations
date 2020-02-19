@@ -1,20 +1,20 @@
 import Component from '@ember/component';
+import { assert } from '@ember/debug';
+
 // @ts-ignore: Ignore import of compiled template
 import layout from '../../templates/components/form-validator/child';
-import { tagName } from '@ember-decorators/component';
-import { assert } from '@ember/debug';
 import FormValidator from '../form-validator';
 
-@tagName('div')
 export default class FormValidatorChild extends Component {
+    tagName = 'div';
     layout = layout;
     parent!: FormValidator;
 
     /**
      * Registers a `FormValidatorChild` with the parent `FormValidator`
      */
-    constructor() {
-        super();
+    init() {
+        super.init();
         assert(
             'child form validators must be inside a form-validator block and pass it to this component in the "parent" attribute',
             this.parent instanceof FormValidator

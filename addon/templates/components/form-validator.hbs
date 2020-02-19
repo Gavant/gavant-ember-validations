@@ -1,7 +1,8 @@
 {{yield
-    changeset
+    @changeset
     (hash
-        submit=(action "submitForm")
+        submit=this.submitForm
+        input=(component "input-validator" parent=this)
         child=(component "form-validator/child" parent=this)
     )
 }}

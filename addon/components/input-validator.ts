@@ -1,13 +1,14 @@
 import Component from '@ember/component';
+import { assert } from '@ember/debug';
+import { reads, bool } from '@ember/object/computed';
+import { scheduleOnce } from '@ember/runloop';
+import { computed } from '@ember/object';
+import { observes } from '@ember-decorators/object';
+
 // @ts-ignore: Ignore import of compiled template
 import layout from '../templates/components/input-validator';
-import { computed } from '@ember-decorators/object';
-import { bool, reads } from '@ember-decorators/object/computed';
-import { observes } from '@ember-decorators/object';
-import { scheduleOnce } from '@ember/runloop';
 import FormValidator from './form-validator';
-import FormValidatorChild from './form-validator/child';
-import { defineProperty } from '@ember/object';
+import ChildFormValidator from './form-validator/child';
 
 export default class InputValidator extends Component {
     layout = layout;
@@ -15,17 +16,63 @@ export default class InputValidator extends Component {
     classNameBindings: string[] = ['showError:is-invalid', 'label:has-label'];
     labelClass: string = 'control-label';
     errorClass: string = 'invalid-feedback';
-    label: boolean = false;
     hideErrorText: boolean = false;
     hasFocusedOut: boolean = false;
-    error = null;
-    parentView: any;
-    target: any;
+    parent!: FormValidator;
+    label: boolean = false;
+
+    /**
+     * An array of strings which are the current error messages associated with the input field
+     * In almost all cases, this will be passed via `@errors={{changeset.error.FIELD_NAME.validation}}`
+     * Where "FIELD_NAME" is the associated changeset property, e.g. `changeset.error.firstName.validation`
+     *
+     * @type {string[]}
+     */
+    errors?: string[];
+
+    /**
+     * On initialization, verify the component was invoked in the correct context
+     */
+    init() {
+        super.init();
+        assert(
+            'input validators must be inside a form-validator block and invoked using the yielded <Validator.input> contextual component',
+            this.parent! instanceof FormValidator || this.parent! instanceof ChildFormValidator
+        );
+    }
+
+    /**
+     * On element insert, update the input's associated <label>'s `for` attribute
+     */
+    didInsertElement() {
+        super.didInsertElement();
+        scheduleOnce('afterRender', this, 'setLabelForAttribute');
+    }
+
+    /**
+     * Returns a comma-separated formatted string of the field's current errors
+     *
+     * @readonly
+     * @param errors the error array in the changeset associated with the target field
+     */
+    @computed('errors.[]')
+    get formattedErrors(): string {
+        return this.errors?.join(', ') ?? '';
+    }
+
+    /**
+     * Returns true if the target changeset field has at least one error
+     *
+     * @readonly
+     * @param errors.length the count of the current errors for the target field
+     */
+    @bool('errors.length') hasError: boolean | undefined;
 
     /**
      * Checks to see if we should show the error
      * If there is an error and you have focused out of the field or your supposed to show all errors then this value is true
      *
+     * @readonly
      * @param hasError If there is an error for this field
      * @param hasFocusedOut If the user has focused out of the field
      * @param showAllValidationFields If we should be showing all validation fields
@@ -36,15 +83,9 @@ export default class InputValidator extends Component {
     }
 
     /**
-     * Checks to see if there is an error related to the field
-     *
-     * @param error.length Error array length
-     */
-    @bool('error.length') hasError: boolean | undefined;
-
-    /**
      * The label for the field
      *
+     * @readonly
      * @param text `text` that is passed in from the user
      */
     @reads('text') fieldLabel: string | undefined;
@@ -52,60 +93,35 @@ export default class InputValidator extends Component {
     /**
      * Checks to see if we should be showing all validation fields. This is changed via the `FormValidator.showAllValidationFields` property
      *
-     * @param targetView.showAllValidationFields `text` that is passed in from the user
+     * @readonly
+     * @param parent.showAllValidationFields `text` that is passed in from the user
      */
-    @reads('targetView.showAllValidationFields') showAllValidationFields: boolean | undefined;
+    @reads('parent.showAllValidationFields') showAllValidationFields: boolean | undefined;
 
     /**
      * Afer the changeset has changed, this observer resets `hasFocusedOut`
      */
-    @observes('targetView.changeset')
+    @observes('parent.changeset')
     changesetHasChanged() {
         scheduleOnce('afterRender', this, 'set', 'hasFocusedOut', false);
-    }
-
-    /**
-     * Goes up through the parent components to find an instance of a `FormValidator` or `FormValidatorChild`
-     *
-     * @param targetView.showAllValidationFields `text` that is passed in from the user
-     */
-    get targetView() {
-        return this.getFormComponent(this.parentView);
-    }
-
-    private getFormComponent(parentView: any): any {
-        if (!parentView) {
-            return null;
-        }
-        if (parentView instanceof FormValidator || parentView instanceof FormValidatorChild) {
-            return parentView;
-        }
-        return this.getFormComponent(parentView.parentView);
     }
 
     /**
      * When user focuses out of the field, this sets `hasFocusedOut` to `true`
      */
     focusOut() {
-        return this.set('hasFocusedOut', true);
+        this.set('hasFocusedOut', true);
     }
 
     /**
-     * Defines a new property called error, which reads the errors from the changeset for the specific value.
-     * For example, if you pass in a target of `name` error is set to `targetView.changeset.error.name.validation` which gives us the errors that we display to the user
+     * Updates the input's associated <label> with a for="" attribute value
+     * using the auto-generated ID of the input
      */
-    defineErrorProperty() {
+    setLabelForAttribute() {
         const input = this.element.querySelector('input, select, textarea');
         const label = this.element.querySelector('label.input-validator-label');
         if(input && label) {
             label.setAttribute('for', input.id);
         }
-
-        defineProperty(this, 'error', reads(`targetView.changeset.error.${this.target}.validation`));
-    }
-
-    didInsertElement() {
-        super.didInsertElement();
-        scheduleOnce('afterRender', this, 'defineErrorProperty');
     }
 };

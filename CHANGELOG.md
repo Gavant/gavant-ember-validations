@@ -1,6 +1,10 @@
 Changelog
 =========
 
+## v2.0.1
+
+- Include ember-cli-typescript generated type defintions in publish
+
 ## v2.0.0
 
 ### Pull Requests

@@ -1,6 +1,12 @@
 Changelog
 =========
 
+## v2.0.2
+
+### Pull Requests
+
+- [#11](https://github.com/Gavant/gavant-ember-validations/pull/11)  Upgrade deps, fix typescript issues  *by [Gavant/feature](https://github.com/Gavant/feature)*
+
 ## v2.0.1
 
 - Include ember-cli-typescript generated type defintions in publish

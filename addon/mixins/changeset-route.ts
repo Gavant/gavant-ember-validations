@@ -2,10 +2,16 @@ import DS from 'ember-data';
 import { set } from '@ember/object';
 import { assert } from '@ember/debug';
 import { isNone } from '@ember/utils';
-import { ValidatorMap } from 'ember-changeset/types';
+import Controller from '@ember/controller';
+import { BufferedChangeset, ValidatorMap } from 'ember-changeset/types';
 
-import { ChangesetController } from 'gavant-ember-validations';
 import createChangeset from '../utilities/create-changeset';
+
+export type ConcreteSubclass<T> = new(...args: any[]) => T;
+
+export class ChangesetController extends Controller {
+    changeset!: BufferedChangeset;
+}
 
 export default function ChangesetRoute<T extends ConcreteSubclass<any>>(RouteSubclass: T) {
     class ChangesetRouteClass extends RouteSubclass {

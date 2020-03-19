@@ -1,6 +1,10 @@
 Changelog
 =========
 
+## v2.0.6
+
+- Update ember-changeset dependencies
+
 ## v2.0.2
 
 ### Pull Requests

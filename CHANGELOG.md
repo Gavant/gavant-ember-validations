@@ -1,6 +1,12 @@
 Changelog
 =========
 
+## v2.1.0
+
+### Pull Requests
+
+- [#12](https://github.com/Gavant/gavant-ember-validations/pull/12)  Typing improvements  *by [Gavant/feature](https://github.com/Gavant/feature)*
+
 ## v2.0.6
 
 - Update ember-changeset dependencies

@@ -3,16 +3,20 @@ import lookupValidator from 'ember-changeset-validations';
 import { BufferedChangeset, ValidatorMap } from 'ember-changeset/types';
 import DS from 'ember-data';
 
+export type ModelChangeset<T> = BufferedChangeset & T;
+
 /**
  * Creates a changeset
- * @param target The target object you want to create a changeset of. Generally a ED Model or POJO
- * @param validation The validation for the object your creating a changeset for
- * @returns The changeset created by calling `new Changeset(...)`
+ * @param {DS.Model | object} target The target object you want to create a changeset of. Generally a ED Model or POJO
+ * @param {ValidatorMap} validation The validation for the object your creating a changeset for
+ * @returns {ModelChangeset<T>}
  */
-export default function createChangeset(target: DS.Model | object, validations: ValidatorMap): BufferedChangeset {
-    const changeset = validations ?
-        Changeset(target, lookupValidator(validations), validations) :
-        Changeset(target);
+export default function createChangeset<T>(target: DS.Model | object, validations: ValidatorMap): ModelChangeset<T> {
+    const changeset = (
+        validations
+        ? Changeset(target, lookupValidator(validations), validations)
+        : Changeset(target)
+    ) as ModelChangeset<T>;
 
     return changeset;
 }

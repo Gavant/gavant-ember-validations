@@ -1,6 +1,6 @@
 {
     "name": "@gavant/ember-validations",
-    "version": "2.1.1",
+    "version": "2.1.2",
     "description": "A form validator library using ember-changeset and ember-changeset-validations",
     "keywords": [
         "ember-addon",

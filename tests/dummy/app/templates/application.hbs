@@ -4,9 +4,9 @@
     </h2>
     <FormValidator
         @changeset={{this.changeset}}
-        @submit={{this.submitForm}} as |changeset Validator|
+        @submit={{this.submitForm}} as |changeset validator|
     >
-        <Validator.input
+        <validator.input
             @errors={{changeset.error.name.validation}}
             @fieldLabel='Name'
             @label={{true}}
@@ -16,8 +16,8 @@
                 class='form-control'
                 autocomplete='off'
             />
-        </Validator.input>
-        <Validator.input
+        </validator.input>
+        <validator.input
             @errors={{changeset.error.num.validation}}
             @fieldLabel='Num'
             @label={{true}}
@@ -27,8 +27,20 @@
                 class='form-control'
                 autocomplete='off'
             />
-        </Validator.input>
-        <Validator.input @errors={{changeset.error.radio.validation}}>
+        </validator.input>
+        <validator.input
+            @errors={{changeset.error.nestedItem.much.wow.validation}}
+            @fieldLabel='Nested Item'
+            @label={{true}}
+        >
+            <ChangesetInput
+                @changeset={{changeset}}
+                @path='nestedItem.much.wow'
+                class='form-control'
+                autocomplete='off'
+            />
+        </validator.input>
+        <validator.input @errors={{changeset.error.radio.validation}}>
             <div class='form-check'>
                 <input
                     type='radio'
@@ -55,8 +67,9 @@
                     Option 2
                 </label>
             </div>
-        </Validator.input>
-        <Validator.child
+        </validator.input>
+
+        <validator.child
             @changeset={{this.childChangeset
             }} as |childChangeset ChildValidator|
         >
@@ -74,11 +87,11 @@
                     autocomplete='off'
                 />
             </ChildValidator.input>
-        </Validator.child>
+        </validator.child>
         <button
             class='btn btn-primary'
             type='submit'
-            {{on 'click' Validator.submit}}
+            {{on 'click' validator.submit}}
         >
             Submit
         </button>

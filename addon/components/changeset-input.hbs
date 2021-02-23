@@ -1,5 +1,5 @@
-<Input
-    @value={{changeset-get @changeset @path}}
+<input
+    value={{changeset-get @changeset @path}}
     ...attributes
     {{on 'input' (event-value (changeset-set @changeset @path))}}
 />

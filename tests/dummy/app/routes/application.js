@@ -7,12 +7,12 @@ import {
 import createChangeset from '@gavant/ember-validations/utilities/create-changeset';
 
 const Validations = {
-    name: [validatePresence({ presence: true, ignoreBlank: true })],
+    name: validatePresence({ presence: true, ignoreBlank: true }),
     num: [
         validatePresence({ presence: true, ignoreBlank: true }),
         validateNumber({ gte: 1, lte: 100, integer: true }),
     ],
-    radio: [validatePresence({ presence: true })],
+    radio: validatePresence({ presence: true }),
     nestedItem: {
         much: {
             wow: [validatePresence({ presence: true, ignoreBlank: true })],

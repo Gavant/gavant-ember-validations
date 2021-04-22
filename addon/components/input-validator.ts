@@ -9,6 +9,7 @@ import { observes } from '@ember-decorators/object';
 import layout from '../templates/components/input-validator';
 import FormValidator from './form-validator';
 import ChildFormValidator from './form-validator/child';
+import { ValidationErr } from 'validated-changeset/dist/types';
 
 export default class InputValidator extends Component {
     layout = layout;
@@ -22,13 +23,13 @@ export default class InputValidator extends Component {
     label: boolean = false;
 
     /**
-     * An array of strings which are the current error messages associated with the input field
+     * A string or an array of strings which are the current error messages associated with the input field
      * In almost all cases, this will be passed via `@errors={{changeset.error.FIELD_NAME.validation}}`
      * Where "FIELD_NAME" is the associated changeset property, e.g. `changeset.error.firstName.validation`
      *
-     * @type {string[]}
+     * @type {string| string[] | ValidationErr[]}
      */
-    errors?: string[];
+    errors?: string| string[] | ValidationErr[];
 
     /**
      * On initialization, verify the component was invoked in the correct context
@@ -57,7 +58,12 @@ export default class InputValidator extends Component {
      */
     @computed('errors.[]')
     get formattedErrors(): string {
-        return this.errors?.join(', ') ?? '';
+        const errors = this.errors;
+        if (Array.isArray(errors)) {
+            return errors.join(', ') ?? ''
+        } else {
+            return errors ?? '';
+        }
     }
 
     /**

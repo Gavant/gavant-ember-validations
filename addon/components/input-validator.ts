@@ -1,9 +1,11 @@
+import { ValidationErr } from 'validated-changeset/dist/types';
+
+import { observes } from '@ember-decorators/object';
 import Component from '@ember/component';
 import { assert } from '@ember/debug';
-import { reads, bool } from '@ember/object/computed';
-import { scheduleOnce } from '@ember/runloop';
 import { computed } from '@ember/object';
-import { observes } from '@ember-decorators/object';
+import { bool, reads } from '@ember/object/computed';
+import { scheduleOnce } from '@ember/runloop';
 
 // @ts-ignore: Ignore import of compiled template
 import layout from '../templates/components/input-validator';
@@ -12,7 +14,7 @@ import ChildFormValidator from './form-validator/child';
 
 export default class InputValidator extends Component {
     layout = layout;
-    classNames: string[] = [ 'form-group', 'input-validator' ];
+    classNames: string[] = ['form-group', 'input-validator'];
     classNameBindings: string[] = ['showError:is-invalid', 'label:has-label'];
     labelClass: string = 'control-label';
     errorClass: string = 'invalid-feedback';
@@ -22,13 +24,13 @@ export default class InputValidator extends Component {
     label: boolean = false;
 
     /**
-     * An array of strings which are the current error messages associated with the input field
+     * A string or an array of strings which are the current error messages associated with the input field
      * In almost all cases, this will be passed via `@errors={{changeset.error.FIELD_NAME.validation}}`
      * Where "FIELD_NAME" is the associated changeset property, e.g. `changeset.error.firstName.validation`
      *
-     * @type {string[]}
+     * @type {string| string[] | ValidationErr[]}
      */
-    errors?: string[];
+    errors?: string | string[] | ValidationErr[];
 
     /**
      * On initialization, verify the component was invoked in the correct context
@@ -37,7 +39,8 @@ export default class InputValidator extends Component {
         super.init();
         assert(
             'input validators must be inside a form-validator block and invoked using the yielded <Validator.input> contextual component',
-            this.parent! instanceof FormValidator || this.parent! instanceof ChildFormValidator
+            this.parent! instanceof FormValidator ||
+                this.parent! instanceof ChildFormValidator
         );
     }
 
@@ -57,7 +60,12 @@ export default class InputValidator extends Component {
      */
     @computed('errors.[]')
     get formattedErrors(): string {
-        return this.errors?.join(', ') ?? '';
+        const errors = this.errors;
+        if (Array.isArray(errors)) {
+            return errors.join(', ') ?? '';
+        } else {
+            return errors ?? '';
+        }
     }
 
     /**
@@ -79,7 +87,10 @@ export default class InputValidator extends Component {
      */
     @computed('hasError', 'hasFocusedOut', 'showAllValidationFields')
     get showError() {
-        return this.hasError && (this.hasFocusedOut || this.showAllValidationFields);
+        return (
+            this.hasError &&
+            (this.hasFocusedOut || this.showAllValidationFields)
+        );
     }
 
     /**
@@ -96,7 +107,9 @@ export default class InputValidator extends Component {
      * @readonly
      * @param parent.showAllValidationFields `text` that is passed in from the user
      */
-    @reads('parent.showAllValidationFields') showAllValidationFields: boolean | undefined;
+    @reads('parent.showAllValidationFields') showAllValidationFields:
+        | boolean
+        | undefined;
 
     /**
      * Afer the changeset has changed, this observer resets `hasFocusedOut`
@@ -120,8 +133,8 @@ export default class InputValidator extends Component {
     setLabelForAttribute() {
         const input = this.element.querySelector('input, select, textarea');
         const label = this.element.querySelector('label.input-validator-label');
-        if(input && label) {
+        if (input && label) {
             label.setAttribute('for', input.id);
         }
     }
-};
+}

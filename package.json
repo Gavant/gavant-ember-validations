@@ -82,7 +82,7 @@
         "ember-cli-dependency-checker": "^3.2.0",
         "ember-cli-github-pages": "^0.2.1",
         "ember-cli-inject-live-reload": "^2.0.2",
-        "ember-cli-sass": "^7.1.7",
+        "ember-cli-sass": "^10.0.1",
         "ember-cli-shims": "^1.2.0",
         "ember-cli-sri": "^2.1.1",
         "ember-cli-terser": "^4.0.1",
@@ -122,7 +122,7 @@
         "configPath": "tests/dummy/config"
     },
     "volta": {
-        "node": "10.19.0"
+        "node": "16.14.2"
     },
     "publishConfig": {
         "access": "public"

@@ -1,27 +1,28 @@
-import { module, test } from 'qunit';
-import { setupRenderingTest } from 'ember-qunit';
 import { render } from '@ember/test-helpers';
+
+import { setupRenderingTest } from 'ember-qunit';
+
 import hbs from 'htmlbars-inline-precompile';
+import { module, test } from 'qunit';
 
-module('Integration | Component | form-validator', function(hooks) {
-  setupRenderingTest(hooks);
+module('Integration | Component | form-validator', function (hooks) {
+    setupRenderingTest(hooks);
 
-  test('it renders', async function(assert) {
-    // Set any properties with this.set('myProperty', 'value');
-    // Handle any actions with this.set('myAction', function(val) { ... });
+    test('it renders', async function (assert) {
+        // Set any properties with this.set('myProperty', 'value');
+        // Handle any actions with this.set('myAction', function(val) { ... });
 
-    await render(hbs`{{form-validator}}`);
-    let element = this.element.textContent;
-    assert.equal(element && element.trim(), '');
+        await render(hbs`{{form-validator}}`);
 
-    // Template block usage:
-    await render(hbs`
+        assert.strictEqual(this.element.textContent?.trim(), '');
+
+        // Template block usage:
+        await render(hbs`
       {{#form-validator}}
         template block text
       {{/form-validator}}
     `);
 
-    element = this.element.textContent;
-    assert.equal(element && element.trim(), 'template block text');
-  });
+        assert.strictEqual(this.element.textContent?.trim(), 'template block text');
+    });
 });

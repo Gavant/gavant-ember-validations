@@ -11,9 +11,12 @@ module('Integration | Helper | event-value', function (hooks) {
     // Replace this with your real tests.
     test('it renders', async function (assert) {
         this.set('inputValue', '1234');
+        const event = await render(hbs`
+        <input value="{{this.inputValue}}"
+        ...attributes
+        {{on 'input' (event-value )}}
+    />`);
 
-        await render(hbs`{{event-value inputValue}}`);
-
-        assert.equal(this.element.textContent?.trim(), '1234');
+        assert.strictEqual(this.element.textContent?.trim(), '');
     });
 });

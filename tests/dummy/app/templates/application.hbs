@@ -1,98 +1,68 @@
-<div class='p-3'>
-    <h2 id='title'>
+<div class="p-3">
+    <h2 id="title">
         Welcome to Ember
     </h2>
-    <FormValidator
-        @changeset={{this.changeset}}
-        @submit={{this.submitForm}} as |changeset validator|
-    >
-        <validator.input
-            @errors={{changeset.error.name.validation}}
-            @fieldLabel='Name'
-            @label={{true}}
-        >
-            <Input
-                @value={{changeset.name}}
-                class='form-control'
-                autocomplete='off'
-            />
+    {{! template-lint-disable no-passed-in-event-handlers }}
+    <FormValidator @changeset={{this.changeset}} @submit={{this.submitForm}} as |changeset validator|>
+        <validator.input @errors={{changeset.error.name.validation}} @fieldLabel="Name" @label={{true}}>
+            {{! template-lint-disable require-input-label }}
+            <Input @value={{changeset.name}} class="form-control" autocomplete="off" />
         </validator.input>
-        <validator.input
-            @errors={{changeset.error.num.validation}}
-            @fieldLabel='Num'
-            @label={{true}}
-        >
-            <Input
-                @value={{changeset.num}}
-                class='form-control'
-                autocomplete='off'
-            />
+        <validator.input @errors={{changeset.error.num.validation}} @fieldLabel="Num" @label={{true}}>
+            {{! template-lint-disable require-input-label }}
+            <Input @value={{changeset.num}} class="form-control" autocomplete="off" />
         </validator.input>
         <validator.input
             @errors={{changeset.error.nestedItem.much.wow.validation}}
-            @fieldLabel='Nested Item'
+            @fieldLabel="Nested Item"
             @label={{true}}
         >
             <ChangesetInput
                 @changeset={{changeset}}
-                @path='nestedItem.much.wow'
-                class='form-control'
-                autocomplete='off'
+                @path="nestedItem.much.wow"
+                class="form-control"
+                autocomplete="off"
             />
         </validator.input>
         <validator.input @errors={{changeset.error.radio.validation}}>
-            <div class='form-check'>
+            <div class="form-check">
                 <input
-                    type='radio'
-                    class='form-check-input'
-                    name='radio-input'
-                    id='radio1'
-                    value='1'
-                    {{on 'click' (fn (mut changeset.radio) '1')}}
+                    type="radio"
+                    class="form-check-input"
+                    name="radio-input"
+                    id="radio1"
+                    value="1"
+                    {{on "click" (fn this.updateRadio "1")}}
                 />
-                <label class='form-check-label' for='radio1'>
+                <label class="form-check-label" for="radio1">
                     Option 1
                 </label>
             </div>
-            <div class='form-check'>
+            <div class="form-check">
                 <input
-                    type='radio'
-                    class='form-check-input'
-                    name='radio-input'
-                    id='radio2'
-                    value='1'
-                    {{on 'click' (fn (mut changeset.radio) '2')}}
+                    type="radio"
+                    class="form-check-input"
+                    name="radio-input"
+                    id="radio2"
+                    value="1"
+                    {{on "click" (fn this.updateRadio "2")}}
                 />
-                <label class='form-check-label' for='radio2'>
+                <label class="form-check-label" for="radio2">
                     Option 2
                 </label>
             </div>
         </validator.input>
 
-        <validator.child
-            @changeset={{this.childChangeset
-            }} as |childChangeset ChildValidator|
-        >
+        <validator.child @changeset={{this.childChangeset}} as |childChangeset ChildValidator|>
             <h2>
                 Child validator
             </h2>
-            <ChildValidator.input
-                @errors={{childChangeset.error.foo.validation}}
-                @fieldLabel='Foo'
-                @label={{true}}
-            >
-                <Input
-                    @value={{childChangeset.foo}}
-                    class='form-control'
-                    autocomplete='off'
-                />
+            <ChildValidator.input @errors={{childChangeset.error.foo.validation}} @fieldLabel="Foo" @label={{true}}>
+                {{! template-lint-disable require-input-label }}
+                <Input @value={{childChangeset.foo}} class="form-control" autocomplete="off" />
             </ChildValidator.input>
         </validator.child>
-        <button
-            class='btn btn-primary'
-            type='submit'
-            {{on 'click' validator.submit}}
-        >
+        <button class="btn btn-primary" type="submit" {{on "click" validator.submit}}>
             Submit
         </button>
     </FormValidator>

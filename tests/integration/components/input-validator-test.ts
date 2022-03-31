@@ -12,18 +12,23 @@ module('Integration | Component | input-validator', function (hooks) {
         // Set any properties with this.set('myProperty', 'value');
         // Handle any actions with this.set('myAction', function(val) { ... });
 
-        await render(hbs`{{input-validator}}`);
+        await render(hbs`
+        <FormValidator @changeset={{this.changeset}} as |changeset validator|>
+            <validator.input @errors={{changeset.error.name.validation}} @fieldLabel="Name" @label={{true}} />
+        </FormValidator>`);
         let element = this.element.textContent;
         assert.strictEqual(element?.trim(), '');
 
         // Template block usage:
         await render(hbs`
-      {{#input-validator}}
-        template block text
-      {{/input-validator}}
-    `);
+        <FormValidator @changeset={{this.changeset}} as |changeset validator|>
+            <validator.input @errors={{changeset.error.name.validation}} @fieldLabel="Name" @label={{true}}>
+                {{! template-lint-disable require-input-label }}
+                <Input @value={{changeset.name}} class="form-control" autocomplete="off" />
+            </validator.input>
+        </FormValidator>`);
 
         element = this.element.textContent;
-        assert.strictEqual(element?.trim(), 'template block text');
+        assert.dom('input').exists();
     });
 });

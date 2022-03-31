@@ -12,21 +12,23 @@ module('Integration | Component | form-validator/child', function (hooks) {
         // Set any properties with this.set('myProperty', 'value');
         // Handle any actions with this.set('myAction', function(val) { ... });
 
-        this.set('parent', {
-            registerChild: function () {},
-            deregisterChild: function () {}
-        });
-
-        await render(hbs`{{form-validator/child parent=parent}}`);
+        await render(
+            hbs`
+                <FormValidator @changeset={{this.changeset}} as |changeset validator|>
+                    <validator.child @changeset={{this.childChangeset}} />
+                </FormValidator>`
+        );
         let element = this.element.textContent;
         assert.strictEqual(element?.trim(), '');
 
         // Template block usage:
         await render(hbs`
-      {{#form-validator/child parent=parent}}
-        template block text
-      {{/form-validator/child}}
-    `);
+        <FormValidator @changeset={{this.changeset}} as |changeset validator|>
+            <validator.child @changeset={{this.childChangeset}}>
+                template block text
+            </validator.child>
+        </FormValidator>
+        `);
 
         element = this.element.textContent;
         assert.strictEqual(element?.trim(), 'template block text');

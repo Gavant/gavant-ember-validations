@@ -14,6 +14,6 @@ module('Integration | Helper | event-value', function (hooks) {
 
         await render(hbs`{{event-value inputValue}}`);
 
-        assert.equal(this.element.textContent?.trim(), '1234');
+        assert.strictEqual(this.element.textContent?.trim(), '1234');
     });
 });

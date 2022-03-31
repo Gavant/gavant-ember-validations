@@ -1,7 +1,9 @@
-import { module, test } from 'qunit';
-import { setupRenderingTest } from 'ember-qunit';
 import { render } from '@ember/test-helpers';
+
+import { setupRenderingTest } from 'ember-qunit';
+
 import hbs from 'htmlbars-inline-precompile';
+import { module, test } from 'qunit';
 
 module('Integration | Component | input-validator', function (hooks) {
     setupRenderingTest(hooks);
@@ -12,7 +14,7 @@ module('Integration | Component | input-validator', function (hooks) {
 
         await render(hbs`{{input-validator}}`);
         let element = this.element.textContent;
-        assert.equal(element && element.trim(), '');
+        assert.strictEqual(element?.trim(), '');
 
         // Template block usage:
         await render(hbs`
@@ -22,6 +24,6 @@ module('Integration | Component | input-validator', function (hooks) {
     `);
 
         element = this.element.textContent;
-        assert.equal(element && element.trim(), 'template block text');
+        assert.strictEqual(element?.trim(), 'template block text');
     });
 });

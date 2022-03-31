@@ -27,5 +27,5 @@ module.exports = {
             fs.writeFileSync(file, importStatement);
             this.ui.writeLine(`Created ${file}`);
         }
-    },
+    }
 };

@@ -14,12 +14,12 @@ module('Integration | Component | form-validator/child', function (hooks) {
 
         this.set('parent', {
             registerChild: function () {},
-            deregisterChild: function () {},
+            deregisterChild: function () {}
         });
 
         await render(hbs`{{form-validator/child parent=parent}}`);
         let element = this.element.textContent;
-        assert.equal(element && element.trim(), '');
+        assert.strictEqual(element?.trim(), '');
 
         // Template block usage:
         await render(hbs`
@@ -29,6 +29,6 @@ module('Integration | Component | form-validator/child', function (hooks) {
     `);
 
         element = this.element.textContent;
-        assert.equal(element && element.trim(), 'template block text');
+        assert.strictEqual(element?.trim(), 'template block text');
     });
 });

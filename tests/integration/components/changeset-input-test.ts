@@ -14,6 +14,6 @@ module('Integration | Component | changeset-input', function (hooks) {
 
         await render(hbs`{{changeset-input}}`);
 
-        assert.equal(this.element.textContent?.trim(), '');
+        assert.strictEqual(this.element.textContent?.trim(), '');
     });
 });

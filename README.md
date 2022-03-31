@@ -9,9 +9,9 @@ DISCLAIMER: This addon is not actively maintained for public use. Pull requests 
 Compatibility
 ------------------------------------------------------------------------------
 
-* Ember.js v3.16 or above
-* Ember CLI v2.13 or above
-* Node.js v10 or above
+* Ember.js v3.24 or above
+* Ember CLI v3.24 or above
+* Node.js v12 or above
 
 
 Installation
@@ -39,7 +39,6 @@ This addon is bundled with [ember-changset](https://github.com/poteto/ember-chan
 ```ts
 // app/pods/foo/route.ts
 import Route from '@ember/routing/route';
-import ChangesetRoute from '@gavant/ember-validations/mixins/changeset-route';
 import Validations from 'my-app/validations/my-validations';
 
 export default class FooRoute extends ChangesetRoute(Route) {

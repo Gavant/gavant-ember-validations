@@ -48,7 +48,7 @@
                     name='radio-input'
                     id='radio1'
                     value='1'
-                    {{on 'click' (fn (mut changeset.radio) '1')}}
+                    {{on 'click' (fn this.updateRadio '1')}}
                 />
                 <label class='form-check-label' for='radio1'>
                     Option 1
@@ -61,7 +61,7 @@
                     name='radio-input'
                     id='radio2'
                     value='1'
-                    {{on 'click' (fn (mut changeset.radio) '2')}}
+                    {{on 'click' (fn this.updateRadio '2')}}
                 />
                 <label class='form-check-label' for='radio2'>
                     Option 2

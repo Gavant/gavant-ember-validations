@@ -11,5 +11,9 @@ export default class ApplicationController extends Controller {
     submit(validator) {
         return validator.submit();
     }
-}
 
+    @action
+    updateRadio(value) {
+        this.changeset.radio = value;
+    }
+}

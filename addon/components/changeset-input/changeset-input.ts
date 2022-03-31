@@ -7,6 +7,5 @@ interface ChangesetInputArgs<T> {
     path: keyof T;
 }
 
-export default class ChangesetInput<T> extends Component<
-    ChangesetInputArgs<T>
-> {}
+// eslint-disable-next-line ember/no-empty-glimmer-component-classes
+export default class ChangesetInput<T> extends Component<ChangesetInputArgs<T>> {}

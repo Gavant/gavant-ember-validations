@@ -1,0 +1,17 @@
+<div class="form-group input-validator {{if this.showError 'is-invalid'}} {{if this.label 'has-label'}}" ...attributes {{did-insert this.onInsert}} {{did-update this.changesetHasChanged @parent.changeset}}>
+    {{#if this.label}}
+        <label for={{this.inputId}} class="{{this.labelClass}} input-validator-label">
+            {{this.fieldLabel}}
+        </label>
+    {{/if}}
+    {{yield}}
+    {{#unless @hideErrorText}}
+        <div class="input-validator-error">
+            {{#if this.showError}}
+                <div class={{this.errorClass}}>
+                    {{if this.msg this.msg this.formattedErrors}}
+                </div>
+            {{/if}}
+        </div>
+    {{/unless}}
+</div>

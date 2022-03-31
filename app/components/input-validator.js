@@ -1,1 +1,1 @@
-export { default } from '@gavant/ember-validations/components/input-validator';
+export { default } from '@gavant/ember-validations/components/input-validator/input-validator';

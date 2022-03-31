@@ -1,10 +1,10 @@
 /* eslint-disable node/no-unsupported-features, no-console */
-"use strict";
+'use strict';
 
 /* eslint-disable node/no-unpublished-require */
-const generateChangelog = require("ember-cli-changelog/lib/tasks/release-with-changelog");
+const generateChangelog = require('ember-cli-changelog/lib/tasks/release-with-changelog');
 
 module.exports = {
     publish: false,
-    beforeCommit: generateChangelog
+    beforeCommit: generateChangelog,
 };

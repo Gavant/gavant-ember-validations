@@ -29,6 +29,7 @@ module('Integration | Component | input-validator', function (hooks) {
         </FormValidator>`);
 
         element = this.element.textContent;
+        //@ts-ignore
         assert.dom('input').exists();
     });
 });

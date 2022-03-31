@@ -11,7 +11,7 @@ module('Integration | Helper | event-value', function (hooks) {
     // Replace this with your real tests.
     test('it renders', async function (assert) {
         this.set('inputValue', '1234');
-        const event = await render(hbs`
+        await render(hbs`
         <input value="{{this.inputValue}}"
         ...attributes
         {{on 'input' (event-value )}}

@@ -2,19 +2,25 @@ import { assert } from '@ember/debug';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 
-import { BufferedChangeset } from 'ember-changeset/types';
+import { GenericChangeset } from '@gavant/ember-validations/utilities/create-changeset';
 
 import FormValidator from '../form-validator';
 
-interface FormValidatorChildArgs {
-    parent: FormValidator;
-    changeset: BufferedChangeset;
+interface FormValidatorChildArgs<T> {
+    parent: FormValidator<T>;
+    changeset: GenericChangeset<T>;
 }
 
-export default class FormValidatorChild extends Component<FormValidatorChildArgs> {
+export default class FormValidatorChild<T> extends Component<FormValidatorChildArgs<T>> {
     @tracked showAllValidationFields: boolean = false;
 
-    constructor(owner: unknown, args: FormValidatorChildArgs) {
+    /**
+     * Creates an instance of FormValidatorChild.
+     * @param {unknown} owner
+     * @param {FormValidatorChildArgs<T>} args
+     * @memberof FormValidatorChild
+     */
+    constructor(owner: unknown, args: FormValidatorChildArgs<T>) {
         super(owner, args);
         assert(
             'child form validators must be inside a form-validator block and pass it to this component in the "parent" attribute',
@@ -25,7 +31,9 @@ export default class FormValidatorChild extends Component<FormValidatorChildArgs
     }
 
     /**
-     * Deregisters a `FormValidatorChild` with the parent `FormValidator`
+     * Deregister the child from the parent
+     *
+     * @memberof FormValidatorChild
      */
     willDestroy() {
         super.willDestroy();

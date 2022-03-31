@@ -8,14 +8,14 @@ import FormValidator from '@gavant/ember-validations/components/form-validator/f
 
 import { ValidationErr } from 'validated-changeset/dist/types';
 
-interface InputValidatorArgs {
+interface InputValidatorArgs<T> {
     errors?: string | string[] | ValidationErr[];
-    parent: FormValidator | FormValidatorChild;
+    parent: FormValidator<T> | FormValidatorChild<T>;
     text?: string;
     hideErrorText?: boolean;
 }
 
-export default class InputValidator extends Component<InputValidatorArgs> {
+export default class InputValidator<T> extends Component<InputValidatorArgs<T>> {
     labelClass = 'control-label';
     errorClass = 'invalid-feedback';
     hasFocusedOut = false;
@@ -50,7 +50,13 @@ export default class InputValidator extends Component<InputValidatorArgs> {
         }
     }
 
-    constructor(owner: unknown, args: InputValidatorArgs) {
+    /**
+     * Creates an instance of InputValidator.
+     * @param {unknown} owner
+     * @param {InputValidatorArgs<T>} args
+     * @memberof InputValidator
+     */
+    constructor(owner: unknown, args: InputValidatorArgs<T>) {
         super(owner, args);
         assert(
             'input validators must be inside a form-validator block and invoked using the yielded <Validator.input> contextual component',
@@ -59,21 +65,44 @@ export default class InputValidator extends Component<InputValidatorArgs> {
         );
     }
 
+    /**
+     * On insert, set the label for attribute
+     *
+     * @param {HTMLElement} element
+     * @memberof InputValidator
+     */
     @action
     onInsert(element: HTMLElement) {
         scheduleOnce('afterRender', this, this.setLabelForAttribute, element);
     }
 
+    /**
+     * Set focused out value
+     *
+     * @param {boolean} value
+     * @memberof InputValidator
+     */
     @action
     setFocusedOut(value: boolean) {
         this.hasFocusedOut = value;
     }
 
+    /**
+     * After the changeset is updated, set the focused value
+     *
+     * @memberof InputValidator
+     */
     @action
     changesetHasChanged() {
         scheduleOnce('afterRender', this, this.setFocusedOut, false);
     }
 
+    /**
+     * Set label for attribute
+     *
+     * @param {HTMLElement} element
+     * @memberof InputValidator
+     */
     @action
     setLabelForAttribute(element: HTMLElement) {
         const input = element.querySelector('input, select, textarea');

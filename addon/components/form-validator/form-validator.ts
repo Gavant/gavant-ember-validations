@@ -5,41 +5,46 @@ import { tracked } from '@glimmer/tracking';
 import { BufferedChangeset } from 'ember-changeset/types';
 
 import FormValidatorChild from '@gavant/ember-validations/components/form-validator/child/child';
+import { GenericChangeset } from '@gavant/ember-validations/utilities/create-changeset';
 
 import { all, reject, resolve } from 'rsvp';
 
-interface FormValidatorArgs {
-    changeset: BufferedChangeset;
-    submit: (changesets: [BufferedChangeset, BufferedChangeset[]]) => void;
+interface FormValidatorArgs<T> {
+    changeset: GenericChangeset<T>;
+    submit: (changesets: [GenericChangeset<T>, GenericChangeset<T>[]]) => void;
 }
 
-export default class FormValidator extends Component<FormValidatorArgs> {
-    @tracked childValidators: FormValidatorChild[] = [];
+export default class FormValidator<T> extends Component<FormValidatorArgs<T>> {
+    @tracked childValidators: FormValidatorChild<T>[] = [];
     @tracked didInvokeValidate: boolean = false;
     @tracked showAllValidationFields: boolean = false;
 
     /**
-     * Registers a `FormValidatorChild` via adding to the `childValidators` array
+     * Register a new child
      *
-     * @param child The form validator child to register
+     * @param {FormValidatorChild<T>} child
+     * @memberof FormValidator
      */
-    registerChild(child: FormValidatorChild) {
+    registerChild(child: FormValidatorChild<T>) {
         this.childValidators.push(child);
     }
 
     /**
-     * Deregisters a `FormValidatorChild` via removing it from the `childValidators` array
+     * Deregister child
      *
-     * @param child The form validator child to deregister
+     * @param {FormValidatorChild<T>} child
+     * @memberof FormValidator
      */
-    deregisterChild(child: FormValidatorChild) {
+    deregisterChild(child: FormValidatorChild<T>) {
         this.childValidators = this.childValidators.filter((item) => item !== child);
     }
 
     /**
-     * Validate the changeset. Resolve promise if successful, reject if not
+     * Validate a changeset
      *
-     * @param changeset The changeset to validate
+     * @param {BufferedChangeset} changeset
+     * @return {*}
+     * @memberof FormValidator
      */
     validateChangeset(changeset: BufferedChangeset) {
         return changeset.validate().then(() => {
@@ -54,6 +59,10 @@ export default class FormValidator extends Component<FormValidatorArgs> {
     /**
      * Submit the form. Check parent changeset and all child changesets to see if they validate
      * If they do validate, try to invoke `submit`. Otherwise show all validation field errors
+     *
+     * @param {Event} event
+     * @return {*}
+     * @memberof FormValidator
      */
     @action
     async submitForm(event: Event) {
@@ -62,7 +71,7 @@ export default class FormValidator extends Component<FormValidatorArgs> {
         if (ownChangeset) {
             const validations = [this.validateChangeset(ownChangeset)];
             const children = this.childValidators.reduce<{
-                changesets: BufferedChangeset[];
+                changesets: GenericChangeset<T>[];
                 validations: Promise<unknown>[];
             }>(
                 (prev, child) => {

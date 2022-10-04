@@ -2,15 +2,29 @@ import { assert } from '@ember/debug';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 
-import FormValidator from '../';
+import FormValidator, { BoundInputValidator } from '../';
 import { GenericChangeset } from '../../../utilities/create-changeset';
 
-interface FormValidatorChildArgs<T> {
-    parent: FormValidator<T>;
-    changeset: GenericChangeset<T>;
+interface FormValidatorChildArgs<P, C extends GenericChangeset<unknown>> {
+    parent: FormValidator<P, [typeof FormValidatorChild]>;
+    changeset: C;
 }
 
-export default class FormValidatorChild<T> extends Component<FormValidatorChildArgs<T>> {
+interface ChildFormValidatorYield<C> {
+    input: BoundInputValidator<C>;
+}
+
+interface FormValidatorChildSignature<P, C extends GenericChangeset<unknown>> {
+    Args: FormValidatorChildArgs<P, C>;
+    Element: HTMLDivElement;
+    Blocks: {
+        default: [FormValidatorChildArgs<P, C>['changeset'], ChildFormValidatorYield<C>];
+    };
+}
+
+export default class FormValidatorChild<P, C extends GenericChangeset<unknown>> extends Component<
+    FormValidatorChildSignature<P, C>
+> {
     @tracked showAllValidationFields: boolean = false;
 
     /**
@@ -19,14 +33,14 @@ export default class FormValidatorChild<T> extends Component<FormValidatorChildA
      * @param {FormValidatorChildArgs<T>} args
      * @memberof FormValidatorChild
      */
-    constructor(owner: unknown, args: FormValidatorChildArgs<T>) {
+    constructor(owner: unknown, args: FormValidatorChildArgs<P, C>) {
         super(owner, args);
         assert(
             'child form validators must be inside a form-validator block and pass it to this component in the "parent" attribute',
             this.args.parent.constructor.name === 'FormValidator'
         );
 
-        this.args.parent.registerChild(this);
+        this.args.parent.registerChild(this as any);
     }
 
     /**
@@ -36,6 +50,6 @@ export default class FormValidatorChild<T> extends Component<FormValidatorChildA
      */
     willDestroy() {
         super.willDestroy();
-        this.args.parent.deregisterChild(this);
+        this.args.parent.deregisterChild(this as any);
     }
 }

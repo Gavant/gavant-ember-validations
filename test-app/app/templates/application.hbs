@@ -3,20 +3,16 @@
         Welcome to Ember
     </h2>
     {{! template-lint-disable no-passed-in-event-handlers }}
-    <FormValidator @changeset={{this.changeset}} @submit={{this.submitForm}} as |changeset validator|>
-        <validator.input @errors={{changeset.error.name.validation}} @fieldLabel="Name" @label={{true}}>
+    <FormValidator @changeset={{this.model}} @submit={{this.submitForm}} as |changeset validator|>
+        <validator.input @errors={{changeset.error.name.validation}}>
             {{! template-lint-disable require-input-label }}
             <Input @value={{changeset.name}} class="form-control" autocomplete="off" />
         </validator.input>
-        <validator.input @errors={{changeset.error.num.validation}} @fieldLabel="Num" @label={{true}}>
+        <validator.input @errors={{changeset.error.num.validation}}>
             {{! template-lint-disable require-input-label }}
             <Input @value={{changeset.num}} class="form-control" autocomplete="off" />
         </validator.input>
-        <validator.input
-            @errors={{changeset.error.nestedItem.much.wow.validation}}
-            @fieldLabel="Nested Item"
-            @label={{true}}
-        >
+        <validator.input @errors={{changeset.error.nestedItem.much.wow.validation}}>
             <ChangesetInput
                 @changeset={{changeset}}
                 @path="nestedItem.much.wow"
@@ -57,7 +53,7 @@
             <h2>
                 Child validator
             </h2>
-            <ChildValidator.input @errors={{childChangeset.error.foo.validation}} @fieldLabel="Foo" @label={{true}}>
+            <ChildValidator.input @errors={{childChangeset.error.foo.validation}}>
                 {{! template-lint-disable require-input-label }}
                 <Input @value={{childChangeset.foo}} class="form-control" autocomplete="off" />
             </ChildValidator.input>

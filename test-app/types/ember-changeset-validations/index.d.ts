@@ -4,4 +4,5 @@ declare module 'ember-changeset-validations' {
 
 declare module 'ember-changeset-validations/validators' {
     export function validatePresence(options: { presence: boolean; ignoreBlank: boolean }): any;
+    export function validateNumber(options: any): any;
 }

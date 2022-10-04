@@ -5,9 +5,6 @@ import Component from '@glimmer/component';
 
 import { ValidationErr } from 'validated-changeset/dist/types';
 
-// import FormValidator from '../form-validator';
-// import FormValidatorChild from '../form-validator/child';
-
 interface InputValidatorArgs<T> {
     errors?: string | string[] | ValidationErr[];
     parent: any | T;

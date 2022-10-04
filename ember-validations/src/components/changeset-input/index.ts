@@ -7,5 +7,13 @@ interface ChangesetInputArgs<T> {
     path: keyof T;
 }
 
+interface ChangesetInputSignature<T> {
+    Args: ChangesetInputArgs<T>;
+    Element: HTMLInputElement;
+    Blocks: {
+        default: [];
+    };
+}
+
 // eslint-disable-next-line ember/no-empty-glimmer-component-classes
-export default class ChangesetInput<T> extends Component<ChangesetInputArgs<T>> {}
+export default class ChangesetInput<T> extends Component<ChangesetInputSignature<T>> {}

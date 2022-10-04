@@ -5,17 +5,24 @@ import Component from '@glimmer/component';
 
 import { ValidationErr } from 'validated-changeset/dist/types';
 
-import FormValidator from '../form-validator';
-import FormValidatorChild from '../form-validator/child';
+// import FormValidator from '../form-validator';
+// import FormValidatorChild from '../form-validator/child';
 
 interface InputValidatorArgs<T> {
     errors?: string | string[] | ValidationErr[];
-    parent: FormValidator<T> | FormValidatorChild<T>;
+    parent: any | T;
     text?: string;
     hideErrorText?: boolean;
 }
 
-export default class InputValidator<T> extends Component<InputValidatorArgs<T>> {
+interface InputValidatorSignature<T> {
+    Args: InputValidatorArgs<T>;
+    Element: HTMLDivElement;
+    Blocks: {
+        default: [];
+    };
+}
+export default class InputValidator<T> extends Component<InputValidatorSignature<T>> {
     labelClass = 'control-label';
     errorClass = 'invalid-feedback';
     hasFocusedOut = false;

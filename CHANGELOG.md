@@ -1,4 +1,13 @@
 
+
+## v4.0.1 (2022-10-04)
+
+#### :bug: Bug Fix
+* [#19](https://github.com/Gavant/gavant-ember-validations/pull/19) Fix main validator types, child validator still giving me trouble ([@bakerac4](https://github.com/bakerac4))
+
+#### Committers: 1
+- Adam Baker ([@bakerac4](https://github.com/bakerac4))
+
 ## v4.0.0 (2022-07-22)
 
 #### :boom: Breaking Change

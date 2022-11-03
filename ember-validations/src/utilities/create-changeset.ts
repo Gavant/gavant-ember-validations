@@ -13,7 +13,10 @@ export type GenericChangeset<T> = BufferedChangeset &
  * @param {ValidatorMap} validation The validation for the object your creating a changeset for
  * @returns {GenericChangeset<T>}
  */
-export default function createChangeset<T>(target: Model | object, validations: ValidatorMap): GenericChangeset<T> {
+export default function createChangeset<T extends Model | object>(
+    target: T,
+    validations: ValidatorMap
+): GenericChangeset<T> {
     const changeset = (
         validations ? Changeset(target, lookupValidator(validations), validations) : Changeset(target)
     ) as GenericChangeset<T>;

@@ -12,30 +12,37 @@ import { WithBoundArgs } from '@glint/template';
 import { GenericChangeset } from '../../utilities/create-changeset';
 import FormValidatorChild from './child';
 
-interface FormValidatorArgs<P> {
-    changeset: GenericChangeset<P>;
-    submit: (changesets: [GenericChangeset<P>, GenericChangeset<any>[]]) => void;
+interface FormValidatorArgs<C extends GenericChangeset<V>, V = ValueForChangeset<C>> {
+    changeset: C;
+    submit: (changesets: [C, GenericChangeset<any>[]]) => void;
 }
 
-export type BoundInputValidator<T> = WithBoundArgs<typeof InputValidator<T>, 'parent'>;
-type BoundChildValidator<P> = WithBoundArgs<typeof FormValidatorChild<P, any>, 'parent'>;
+export type BoundInputValidator<C extends GenericChangeset<V>, V = ValueForChangeset<C>> = WithBoundArgs<
+    typeof InputValidator<C>,
+    'parent'
+>;
 
-interface FormValidatorYield<P> {
-    submit: FormValidator<P, any>['submitForm'];
-    input: BoundInputValidator<P>;
-    child: BoundChildValidator<P>;
-}
-
-interface FormValidatorSignature<P> {
-    Args: FormValidatorArgs<P>;
+interface FormValidatorSignature<C extends GenericChangeset<V>, V = ValueForChangeset<C>> {
+    Args: FormValidatorArgs<C, V>;
     Element: HTMLFormElement;
     Blocks: {
-        default: [GenericChangeset<P>, FormValidatorYield<P>];
+        default: [
+            C,
+            {
+                submit: FormValidator<C, V>['submitForm'];
+                input: WithBoundArgs<typeof InputValidator<C>, 'parent'>;
+                child: typeof FormValidatorChild;
+            }
+        ];
     };
 }
 
-export default class FormValidator<P, C extends any[]> extends Component<FormValidatorSignature<P>> {
-    @tracked childValidators: FormValidatorChild<P, C[number]>[] = [];
+export type ValueForChangeset<V> = V extends GenericChangeset<infer T> ? T : never;
+
+export default class FormValidator<C extends GenericChangeset<V>, V = ValueForChangeset<C>> extends Component<
+    FormValidatorSignature<C, V>
+> {
+    @tracked childValidators: FormValidatorChild<C, V>[] = [];
     @tracked didInvokeValidate: boolean = false;
     @tracked showAllValidationFields: boolean = false;
 
@@ -45,7 +52,7 @@ export default class FormValidator<P, C extends any[]> extends Component<FormVal
      * @param {FormValidatorChild<T>} child
      * @memberof FormValidator
      */
-    registerChild(child: FormValidatorChild<P, C[number]>) {
+    registerChild(child: FormValidatorChild<C, V>) {
         this.childValidators.push(child);
     }
 
@@ -55,7 +62,7 @@ export default class FormValidator<P, C extends any[]> extends Component<FormVal
      * @param {FormValidatorChild<T>} child
      * @memberof FormValidator
      */
-    deregisterChild(child: FormValidatorChild<P, C[number]>) {
+    deregisterChild(child: FormValidatorChild<C, V>) {
         this.childValidators = this.childValidators.filter((item) => item !== child);
     }
 
@@ -91,7 +98,7 @@ export default class FormValidator<P, C extends any[]> extends Component<FormVal
         if (ownChangeset) {
             const validations = [this.validateChangeset(ownChangeset)];
             const children = this.childValidators.reduce<{
-                changesets: GenericChangeset<C[number]>[];
+                changesets: GenericChangeset<unknown>[];
                 validations: Promise<unknown>[];
             }>(
                 (prev, child) => {

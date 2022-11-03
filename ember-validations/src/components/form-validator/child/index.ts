@@ -2,28 +2,41 @@ import { assert } from '@ember/debug';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 
-import FormValidator, { BoundInputValidator } from '../';
+import InputValidator from 'components/input-validator';
+
+import { WithBoundArgs } from '@glint/template';
+
+import FormValidator, { ValueForChangeset } from '../';
 import { GenericChangeset } from '../../../utilities/create-changeset';
 
-interface FormValidatorChildArgs<P, C extends GenericChangeset<unknown>> {
-    parent: FormValidator<P, [typeof FormValidatorChild]>;
+interface FormValidatorChildArgs<C extends GenericChangeset<V>, V = ValueForChangeset<C>> {
+    /**
+     * So this is actually not optional. But due to a limitation with `withBoundArgs` it doesnt pass the correct type information down.
+     * This is a workaround to allow us to not use withBoundArgs but still get the right type information. For all cases I can think of this will be
+     * passed automatically by the parent component and we wont have to worry about it.
+     *
+     * @type {FormValidator<GenericChangeset<unknown>, unknown>}
+     * @memberof FormValidatorChildArgs
+     */
+    parent?: FormValidator<GenericChangeset<unknown>, unknown>;
     changeset: C;
 }
 
-interface ChildFormValidatorYield<C> {
-    input: BoundInputValidator<C>;
-}
-
-interface FormValidatorChildSignature<P, C extends GenericChangeset<unknown>> {
-    Args: FormValidatorChildArgs<P, C>;
+interface FormValidatorChildSignature<C extends GenericChangeset<V>, V = ValueForChangeset<C>> {
+    Args: FormValidatorChildArgs<C, V>;
     Element: HTMLDivElement;
     Blocks: {
-        default: [FormValidatorChildArgs<P, C>['changeset'], ChildFormValidatorYield<C>];
+        default: [
+            C,
+            {
+                input: WithBoundArgs<typeof InputValidator<C>, 'parent'>;
+            }
+        ];
     };
 }
 
-export default class FormValidatorChild<P, C extends GenericChangeset<unknown>> extends Component<
-    FormValidatorChildSignature<P, C>
+export default class FormValidatorChild<C extends GenericChangeset<V>, V = ValueForChangeset<C>> extends Component<
+    FormValidatorChildSignature<C, V>
 > {
     @tracked showAllValidationFields: boolean = false;
 
@@ -33,11 +46,11 @@ export default class FormValidatorChild<P, C extends GenericChangeset<unknown>> 
      * @param {FormValidatorChildArgs<T>} args
      * @memberof FormValidatorChild
      */
-    constructor(owner: unknown, args: FormValidatorChildArgs<P, C>) {
+    constructor(owner: unknown, args: FormValidatorChildArgs<C, V>) {
         super(owner, args);
         assert(
             'child form validators must be inside a form-validator block and pass it to this component in the "parent" attribute',
-            this.args.parent.constructor.name === 'FormValidator'
+            this.args.parent?.constructor.name === 'FormValidator'
         );
 
         this.args.parent.registerChild(this as any);
@@ -50,6 +63,6 @@ export default class FormValidatorChild<P, C extends GenericChangeset<unknown>> 
      */
     willDestroy() {
         super.willDestroy();
-        this.args.parent.deregisterChild(this as any);
+        this.args.parent?.deregisterChild(this as any);
     }
 }

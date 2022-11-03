@@ -27,10 +27,10 @@ export default class Application extends Route {
     validations = Validations;
 
     model() {
-        const changeset = createChangeset<{ name: string; num: string; radio: boolean }>(
+        const changeset = createChangeset(
             {
                 name: null,
-                num: 5,
+                num: '5',
                 radio: null,
                 nestedItem: {
                     much: {

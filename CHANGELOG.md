@@ -1,5 +1,14 @@
 
 
+
+## v4.0.3 (2022-11-04)
+
+#### :rocket: Enhancement
+* [#22](https://github.com/Gavant/gavant-ember-validations/pull/22) Modifying GenericChangeset types ([@bakerac4](https://github.com/bakerac4))
+
+#### Committers: 1
+- Adam Baker ([@bakerac4](https://github.com/bakerac4))
+
 ## v4.0.2 (2022-11-03)
 
 ## v4.0.1 (2022-10-04)

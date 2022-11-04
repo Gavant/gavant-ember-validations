@@ -2,12 +2,11 @@ import { assert } from '@ember/debug';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 
-import InputValidator from 'components/input-validator';
-
 import { WithBoundArgs } from '@glint/template';
 
 import FormValidator, { ValueForChangeset } from '../';
 import { GenericChangeset } from '../../../utilities/create-changeset';
+import InputValidator from '../../input-validator';
 
 interface FormValidatorChildArgs<C extends GenericChangeset<V>, V = ValueForChangeset<C>> {
     /**

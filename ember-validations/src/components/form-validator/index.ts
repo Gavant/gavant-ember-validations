@@ -4,12 +4,12 @@ import { tracked } from '@glimmer/tracking';
 
 import { BufferedChangeset } from 'ember-changeset/types';
 
-import InputValidator from 'components/input-validator';
 import { all, reject, resolve } from 'rsvp';
 
 import { WithBoundArgs } from '@glint/template';
 
 import { GenericChangeset } from '../../utilities/create-changeset';
+import InputValidator from '../input-validator';
 import FormValidatorChild from './child';
 
 interface FormValidatorArgs<C extends GenericChangeset<V>, V = ValueForChangeset<C>> {

@@ -20,6 +20,6 @@ export default class ApplicationController extends Controller {
 
     @action
     updateRadio(value) {
-        this.changeset.radio = value;
+        this.model.radio = value;
     }
 }

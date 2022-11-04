@@ -22,7 +22,6 @@ const Validations = {
 const childValidations = {
     foo: [validatePresence({ presence: true, ignoreBlank: true })]
 };
-
 export default class Application extends Route {
     validations = Validations;
 

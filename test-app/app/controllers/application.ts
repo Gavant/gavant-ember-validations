@@ -9,7 +9,21 @@ export default class ApplicationController extends Controller {
     declare model: RouteModel<Application>;
     declare childChangeset: GenericChangeset<{ foo: string }>;
     @action
-    submitForm() {
+    submitForm([parent, children]: [
+        GenericChangeset<{
+            name: null;
+            num: string;
+            radio: null;
+            nestedItem: {
+                much: {
+                    wow: null;
+                };
+            };
+        }>,
+        [GenericChangeset<{ foo: string }>]
+    ]) {
+        parent.name;
+        children[0].foo;
         window.alert('submitted succesfully!');
     }
 

@@ -14,7 +14,7 @@ import FormValidatorChild from './child';
 
 interface FormValidatorArgs<C extends GenericChangeset<V>, V = ValueForChangeset<C>> {
     changeset: C;
-    submit: (changesets: [C, GenericChangeset<any>[]]) => void;
+    submit: (changesets: [C, GenericChangeset<any>[]] | [C]) => void;
 }
 
 export type BoundInputValidator<C extends GenericChangeset<V>, V = ValueForChangeset<C>> = WithBoundArgs<

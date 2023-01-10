@@ -18,8 +18,7 @@ module('Integration | Component | form-validator/child', function (hooks) {
                     <validator.child @changeset={{this.childChangeset}} />
                 </FormValidator>`
         );
-        let element = this.element.textContent;
-        assert.strictEqual(element?.trim(), '');
+        assert.dom().hasNoText();
 
         // Template block usage:
         await render(hbs`
@@ -30,7 +29,6 @@ module('Integration | Component | form-validator/child', function (hooks) {
         </FormValidator>
         `);
 
-        element = this.element.textContent;
-        assert.strictEqual(element?.trim(), 'template block text');
+        assert.dom().containsText('template block text');
     });
 });

@@ -16,8 +16,8 @@ module('Integration | Component | input-validator', function (hooks) {
         <FormValidator @changeset={{this.changeset}} as |changeset validator|>
             <validator.input @errors={{changeset.error.name.validation}} @fieldLabel="Name" @label={{true}} />
         </FormValidator>`);
-        let element = this.element.textContent;
-        assert.strictEqual(element?.trim(), '');
+
+        assert.dom().hasNoText();
 
         // Template block usage:
         await render(hbs`
@@ -28,7 +28,6 @@ module('Integration | Component | input-validator', function (hooks) {
             </validator.input>
         </FormValidator>`);
 
-        element = this.element.textContent;
         assert.dom('input').exists();
     });
 });

@@ -29,6 +29,6 @@ module('Integration | Component | changeset-input', function (hooks) {
         class="form-control"
         autocomplete="off" />`);
 
-        assert.strictEqual(this.element.textContent?.trim(), '');
+        assert.dom().hasNoText();
     });
 });

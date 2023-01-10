@@ -1,6 +1,6 @@
 {
     "name": "test-app",
-    "version": "4.0.3",
+    "version": "4.1.0",
     "private": true,
     "description": "Small description for test-app goes here",
     "repository": "",
@@ -23,7 +23,7 @@
         "test:ember": "ember test"
     },
     "dependencies": {
-        "@gavant/ember-validations": "4.0.3"
+        "@gavant/ember-validations": "4.1.0"
     },
     "devDependencies": {
         "@ember/optional-features": "^2.0.0",

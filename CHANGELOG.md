@@ -1,6 +1,15 @@
 
 
 
+
+## v4.1.0 (2023-01-10)
+
+#### :rocket: Enhancement
+* [#23](https://github.com/Gavant/gavant-ember-validations/pull/23) Allow for optional children validators ([@bakerac4](https://github.com/bakerac4))
+
+#### Committers: 1
+- Adam Baker ([@bakerac4](https://github.com/bakerac4))
+
 ## v4.0.3 (2022-11-04)
 
 #### :rocket: Enhancement

@@ -14,7 +14,7 @@ module('Integration | Component | form-validator', function (hooks) {
 
         await render(hbs`{{form-validator}}`);
 
-        assert.strictEqual(this.element.textContent?.trim(), '');
+        assert.dom().hasNoText();
 
         // Template block usage:
         await render(hbs`
@@ -23,6 +23,6 @@ module('Integration | Component | form-validator', function (hooks) {
       {{/form-validator}}
     `);
 
-        assert.strictEqual(this.element.textContent?.trim(), 'template block text');
+        assert.dom().containsText('template block text');
     });
 });

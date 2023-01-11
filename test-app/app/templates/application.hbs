@@ -2,6 +2,7 @@
     <h2 id="title">
         Welcome to Ember
     </h2>
+
     {{! template-lint-disable no-passed-in-event-handlers }}
     <FormValidator @changeset={{this.model}} @submit={{this.submitForm}} as |changeset validator|>
         <validator.input @errors={{changeset.error.name.validation}}>

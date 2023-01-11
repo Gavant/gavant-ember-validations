@@ -3,7 +3,7 @@ import Route from '@ember/routing/route';
 
 import { validateNumber, validatePresence } from 'ember-changeset-validations/validators';
 
-import createChangeset from '@gavant/ember-validations/utilities/create-changeset';
+import createChangeset, { GenericChangeset } from '@gavant/ember-validations/utilities/create-changeset';
 
 import ApplicationController from 'test-app/controllers/application';
 
@@ -22,6 +22,17 @@ const Validations = {
 const childValidations = {
     foo: [validatePresence({ presence: true, ignoreBlank: true })]
 };
+
+export type TestChangeset = GenericChangeset<{
+    name: null;
+    num: string;
+    radio: null;
+    nestedItem: {
+        much: {
+            wow: null;
+        };
+    };
+}>;
 export default class Application extends Route {
     validations = Validations;
 
@@ -39,7 +50,7 @@ export default class Application extends Route {
             },
             Validations
         );
-        return changeset;
+        return changeset as TestChangeset;
     }
 
     setupController(controller: ApplicationController, model: RouteModel<Application>, transition: Transition) {

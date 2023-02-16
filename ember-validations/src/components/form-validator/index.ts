@@ -32,6 +32,7 @@ interface FormValidatorSignature<C extends GenericChangeset<V>, V = ValueForChan
                 submit: FormValidator<C, V>['submitForm'];
                 input: WithBoundArgs<typeof InputValidator<C>, 'parent'>;
                 child: typeof FormValidatorChild;
+                showAllValidationFields: boolean;
             }
         ];
     };

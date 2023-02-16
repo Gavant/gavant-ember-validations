@@ -29,6 +29,7 @@ interface FormValidatorChildSignature<C extends GenericChangeset<V>, V = ValueFo
             C,
             {
                 input: WithBoundArgs<typeof InputValidator<C>, 'parent'>;
+                showAllValidationFields: boolean;
             }
         ];
     };

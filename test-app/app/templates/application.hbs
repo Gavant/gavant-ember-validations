@@ -5,6 +5,7 @@
 
     {{! template-lint-disable no-passed-in-event-handlers }}
     <FormValidator @changeset={{this.model}} @submit={{this.submitForm}} as |changeset validator|>
+        {{validator.showAllValidationFields}}
         <validator.input @errors={{changeset.error.name.validation}}>
             {{! template-lint-disable require-input-label }}
             <Input @value={{changeset.name}} class="form-control" autocomplete="off" />
@@ -51,6 +52,7 @@
         </validator.input>
 
         <validator.child @changeset={{this.childChangeset}} as |childChangeset ChildValidator|>
+            {{ChildValidator.showAllValidationFields}}
             <h2>
                 Child validator
             </h2>
